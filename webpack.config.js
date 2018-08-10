@@ -7,7 +7,7 @@ function resolve(filePath) {
 }
 
 var babelOptions = fableUtils.resolveBabelOptions({
-    presets: [["es2015", { "modules": false }]],
+    presets: [["env", { "modules": false }]],
     plugins: [["transform-runtime", {
         "helpers": true,
         "polyfill": true,
@@ -19,6 +19,7 @@ var isProduction = process.argv.indexOf("-p") >= 0;
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 module.exports = {
+    mode: isProduction ? "production" : "development",
     devtool: isProduction ? undefined : "source-map",
     entry: {
         client: resolve('./src/Client/Client.fsproj'),
@@ -26,7 +27,8 @@ module.exports = {
     },
     output: {
         path: resolve('./public'),
-        filename: "[name].js"
+        filename: "[name].js",
+        globalObject: "this" //https://github.com/webpack/webpack/issues/6642
     },
     resolve: {
         modules: [
