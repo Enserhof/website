@@ -69,3 +69,19 @@ Program.mkProgram init update root
 #endif
 |> Program.withReact "elmish-app"
 |> Program.run
+
+open Fable.Import
+open Fable.PowerPack
+
+if not <| isNull Browser.navigator.serviceWorker
+then
+  Browser.window.addEventListener_load(fun _evt ->
+    promise {
+      try
+        let! registration = Browser.navigator.serviceWorker.register "/sw.js"
+        printfn "ServiceWorker registration successful with scope: %s" registration.scope
+      with e ->
+        Browser.console.error("ServiceWorker registration failed: ", e)
+    }
+    |> Promise.start
+  )

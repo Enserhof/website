@@ -22,10 +22,13 @@ console.log("Bundling for " + (isProduction ? "production" : "development") + ".
 
 module.exports = {
     devtool: isProduction ? undefined : "source-map",
-    entry: resolve('./src/Client/Client.fsproj'),
+    entry: {
+        client: resolve('./src/Client/Client.fsproj'),
+        sw: resolve('./src/ServiceWorker/ServiceWorker.fsproj')
+    },
     output: {
-        filename: "client.js",
         path: resolve('./public'),
+        filename: "[name].js"
     },
     resolve: {
         modules: [
