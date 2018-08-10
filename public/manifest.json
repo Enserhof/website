@@ -14,8 +14,8 @@
     }
   ],
   "start_url": "index.html?utm_source=a2hs",
+  "background_color": "#3179cd",
   "scope": "/enserhof.github.io/",
-  "background_color": "#3273dc",
   "display": "standalone",
-  "theme_color": "#3273dc"
+  "theme_color": "#3179cd"
 }
