@@ -10,7 +10,7 @@ let rand = Random()
 let init : Model * Cmd<Msg> =
   let loadStallzeitenCmd =
     Cmd.ofPromise
-      (fetchAs<DateTime list> (sprintf "api/stallzeiten?rand=%f" (rand.NextDouble())))
+      (fetchAs<DateTime list> (sprintf "api/stallzeiten"))
       []
       LoadStallzeitenSuccess
       (HttpError >> LoadStallzeitenError)
