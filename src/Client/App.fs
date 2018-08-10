@@ -12,6 +12,7 @@ open Fable.Helpers.React.Props
 open Fulma
 
 importAll "../../node_modules/bulma/bulma.sass"
+importAll "../../node_modules/font-awesome/scss/font-awesome.scss"
 importAll "../../sass/main.sass"
 
 let menuItem page currentPage =
