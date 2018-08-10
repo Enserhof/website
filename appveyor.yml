@@ -17,13 +17,8 @@ install:
 build_script:
   - ps: .\build.ps1
 
--
-  branches:
-    only:
-      - dev
-
-  deploy_script:
-    - ps: .\deploy.ps1
+deploy_script:
+  - ps: .\deploy.ps1
 
 notifications:
   - provider: Email
