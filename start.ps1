@@ -1,4 +1,4 @@
-Push-Location .\src
+Push-Location .\src\Client
 try {
     dotnet fable yarn-start
 }

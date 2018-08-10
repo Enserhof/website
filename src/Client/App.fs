@@ -11,8 +11,8 @@ open Fable.Helpers.React
 open Fable.Helpers.React.Props
 open Fulma
 
-importAll "../node_modules/bulma/bulma.sass"
-importAll "../sass/main.sass"
+importAll "../../node_modules/bulma/bulma.sass"
+importAll "../../sass/main.sass"
 
 let menuItem page currentPage =
   Navbar.Item.a

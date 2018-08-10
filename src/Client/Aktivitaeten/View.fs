@@ -56,4 +56,4 @@ let root model =
         span [] stallzeitenContent
         Image.image
           [ Image.Modifiers [ Modifier.TextAlignment (Screen.All, TextAlignment.Left) ] ]
-          [ img [ Src (importAll "../../images/stallarbeit.jpg"); Style [ MaxWidth "640px" ] ] ] ] ]
+          [ img [ Src (importAll "../../../images/stallarbeit.jpg"); Style [ MaxWidth "640px" ] ] ] ] ]
