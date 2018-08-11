@@ -7,7 +7,7 @@ open Fable.Import.Browser
 open Fable.PowerPack
 
 [<Global>]
-let self: Fable.Import.Browser.ServiceWorker = jsNative
+let self: ServiceWorker = jsNative
 
 let cacheName = "default-cache-v1"
 
@@ -26,8 +26,11 @@ self.addEventListener_install(fun event ->
 )
 
 self.addEventListener_fetch(fun event ->
+  printfn "FETCH: %s %s" event.request.method event.request.url
+
   let fetchAndCache (fetchRequest: Request) = promise {
     let! (response: Response) = !!Fetch.Fetch_types.GlobalFetch.fetch fetchRequest
+    Browser.console.log response
     // Check if we received a valid response
     if !!response && response.status = 200. && response.``type`` = ResponseType.Basic
     then
@@ -45,11 +48,14 @@ self.addEventListener_fetch(fun event ->
 
   promise {
     let! response = caches.``match`` event.request
-    // Cache hit - return response
     return!
       if !!response
-      then Promise.lift response
+      then
+        // Cache hit - return response
+        printfn "Cache hit"
+        Promise.lift response
       else
+        printfn "Cache miss"
         // IMPORTANT: Clone the request. A request is a stream and
         // can only be consumed once. Since we are consuming this
         // once by cache and once by the browser for fetch, we need
