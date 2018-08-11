@@ -5,8 +5,6 @@ open Elmish
 open Types
 open Fable.PowerPack.Fetch
 
-let rand = Random()
-
 let init : Model * Cmd<Msg> =
   let loadStallzeitenCmd =
     Cmd.ofPromise
