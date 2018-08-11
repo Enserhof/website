@@ -29,8 +29,8 @@ let root model dispatch =
 
   let animalBox item title collapsableContent picture =
     [ div [ ClassName Modifier.Classes.Helpers.IsClearfix ]
-        [ Heading.h3 [ Heading.Is5; Heading.Modifiers [ Modifier.IsPulledLeft ] ] [ str title ]
-          openMenuButton item ]
+        [ openMenuButton item
+          Heading.h3 [ Heading.Is5 ] [ str title ] ]
       Content.content [ Content.CustomClass (if Set.contains item model.OpenMenus then "is-open" else "is-closed") ]
         collapsableContent
       picture ]
