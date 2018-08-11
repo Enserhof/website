@@ -1,8 +1,8 @@
-$ErrorActionPreference = "Stop"
-
 param(
   [String]$remoteName = 'origin'
 )
+
+$ErrorActionPreference = "Stop"
 
 function ExitOnError {
   if ($LastExitCode -ne 0) { 
