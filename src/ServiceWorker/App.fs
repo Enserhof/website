@@ -16,8 +16,8 @@ self.addEventListener_install(fun event ->
     let! cache = Browser.caches.``open`` cacheName
     return!
       !![
-        "/index.html"
-        "/client.js"
+        "index.html"
+        "client.js"
       ]
       |> cache.addAll
   }
@@ -26,8 +26,6 @@ self.addEventListener_install(fun event ->
 )
 
 self.addEventListener_fetch(fun event ->
-  printfn "FETCH: %s %s" event.request.method event.request.url
-
   let fetchAndCache (fetchRequest: Request) = promise {
     let! (response: Response) = !!Fetch.Fetch_types.GlobalFetch.fetch fetchRequest
     Browser.console.log response
@@ -52,10 +50,10 @@ self.addEventListener_fetch(fun event ->
       if !!response
       then
         // Cache hit - return response
-        printfn "Cache hit"
+        printfn "%s %s: Cache hit" event.request.method event.request.url
         Promise.lift response
       else
-        printfn "Cache miss"
+        printfn "%s %s: Cache miss" event.request.method event.request.url
         // IMPORTANT: Clone the request. A request is a stream and
         // can only be consumed once. Since we are consuming this
         // once by cache and once by the browser for fetch, we need
