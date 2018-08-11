@@ -2,8 +2,6 @@ param(
   [String]$remoteName = 'origin'
 )
 
-$ErrorActionPreference = "Stop"
-
 function ExitOnError {
   if ($LASTEXITCODE -ne 0) { 
       throw "Command returned non-zero exit code"
@@ -19,8 +17,7 @@ $commitHash = git rev-parse HEAD; ExitOnError
 
 Push-Location $buildOutputDir
 try {
-  git diff --quiet HEAD
-  $isDirty = $LASTEXITCODE
+  $isDirty = git status -s
   if ($isDirty) {
     git add .; ExitOnError
     git status; ExitOnError
