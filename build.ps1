@@ -1,5 +1,17 @@
-yarn install --frozen-lockfile
-dotnet restore
+$ErrorActionPreference = "Stop"
+
+function ExitOnError {
+    if ($LastExitCode -ne 0) { 
+        throw "Command returned non-zero exit code"
+    }
+}
+
+yarn install --frozen-lockfile; ExitOnError
+dotnet restore; ExitOnError
 Push-Location .\src\Client
-dotnet fable yarn-build
-Pop-Location
+try {
+    dotnet fable yarn-build; ExitOnError
+}
+finally {
+    Pop-Location
+}
