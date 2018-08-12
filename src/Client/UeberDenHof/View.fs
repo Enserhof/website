@@ -16,8 +16,8 @@ let root model dispatch =
 
   let openMenuButton menuItem =
     let (cmd, stateClass) =
-      if Set.contains menuItem model.OpenMenus then
-        (CloseMenu menuItem, "is-expanded")
+      if Set.contains menuItem model.OpenMenus
+      then (CloseMenu menuItem, "is-expanded")
       else (OpenMenu menuItem, "is-collapsed")
     Button.a
       [ Button.Color Color.IsWhite
