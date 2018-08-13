@@ -130,6 +130,9 @@ module.exports = {
                     handler: 'cacheFirst',
                     options: {
                         cacheName: 'google-fonts',
+                        cacheableResponse: {
+                            statuses: [0, 200]
+                        },
                         expiration: {
                             maxEntries: 30
                         },
