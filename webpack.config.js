@@ -4,6 +4,7 @@ var fableUtils = require("fable-utils");
 const workboxPlugin = require('workbox-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 function resolve(filePath) {
     return path.join(__dirname, filePath)
@@ -84,7 +85,6 @@ module.exports = {
     plugins: [
         ...(isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]),
         ...(isProduction ? [] : [new webpack.NamedModulesPlugin()]),
-        
         new HtmlWebpackPlugin({
             template: 'src/index.html'
         }),
@@ -92,6 +92,11 @@ module.exports = {
             "src/manifest.json",
             { from: "**", to: "icons/", context: "src/icons" },
             { from: "src/Server/", to: "api/" }
+        ]),
+        new SitemapPlugin('https://enserhof.github.io', [
+            "/#aktivitaeten",
+            "/#ueber-den-hof",
+            "/#lageplan"
         ]),
         new workboxPlugin.GenerateSW({
             swDest: "sw.js",
