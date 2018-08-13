@@ -73,7 +73,7 @@ let root model dispatch =
                       str "Brot und Obst haben zu viel Kohlenhydrate – das vertragen unsere Esel nicht!"
                       br []
                       str "Deshalb die beiden bitte nicht mehr füttern. Danke!" ] ]
-                (image (importAll "../../../images/tiere/esel.jpg")))
+                (image (importAll "../../images/tiere/esel.jpg")))
             Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
                 Ponys
@@ -84,7 +84,7 @@ let root model dispatch =
                       str "Im April 2018 überraschte sie uns mit ihrem Fohlen \"Luna\"." ]
                   p []
                     [ str "Bezüglich dem Fressen gilt das gleiche wie bei den Eseln." ] ]
-                (image (importAll "../../../images/tiere/ponys.jpg")))
+                (image (importAll "../../images/tiere/ponys.jpg")))
             Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
                 Kuehe
@@ -93,7 +93,7 @@ let root model dispatch =
                     [ str "Unsere beiden Zwergzeburinder kamen ebenfalls 2017 zu uns auf dem Hof."
                       br []
                       str "Die Kühe hatten beim Vorbesitzer sehr wenig Menschenkontakt, deshalb sind sie leider immer noch etwas schreckhaft." ] ]
-                (image (importAll "../../../images/tiere/kuehe.jpg"))) ]
+                (image (importAll "../../images/tiere/kuehe.jpg"))) ]
         Tile.parent [ Tile.IsVertical ]
           [ Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
@@ -101,25 +101,25 @@ let root model dispatch =
                 "Minki, Quetschi und Familie"
                 [ p []
                     [ str "Unsere Hasen leben ebenfalls seit 2017 auf unserem Hof. Die beiden Eltern sorgten innerhalb dieser Zeit schon vier mal für Nachwuchs. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
-                (image (importAll "../../../images/tiere/hasen.jpg")))
+                (image (importAll "../../images/tiere/hasen.jpg")))
             Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
                 Huehner
                 "Hahn & Hühner"
                 [ p []
                     [ str "Unsere kleine Hühnerschar besteht aus einem stolzen Hahn und 13 Hühner. Sie lieben es sich unter den Sträuchern zu verkriechen und sich in der Erde zu wälzen." ] ]
-                (image (importAll "../../../images/tiere/huehner.jpg")))
+                (image (importAll "../../images/tiere/huehner.jpg")))
             Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
                 Puma
                 "Puma"
                 [ p []
                     [ str "Unser Wachhund Puma lebt seit 2015 auf unserem Hof. Puma ist ein sehr netter Kerl. Er liebt Kinder über alles und tut keiner Mücke etwas zu Leide. Puma liebt es im Garten (oder in der Sandkiste) zu spielen." ] ]
-                (image (importAll "../../../images/tiere/hund.jpg")))
+                (image (importAll "../../images/tiere/hund.jpg")))
             Tile.child [ Tile.CustomClass Box.Classes.Container ]
               (animalBox
                 Maxi
                 "Maxi"
                 [ p []
                     [ str "Unser Maxi ist 2011 am Enserhof geboren. Er ist ein unkomplizierter, liebevoller und treuer Wegbegleiter." ] ]
-                (image (importAll "../../../images/tiere/maxi.jpg"))) ] ] ]
+                (image (importAll "../../images/tiere/maxi.jpg"))) ] ] ]

@@ -1,6 +1,9 @@
 var path = require("path");
 var webpack = require("webpack");
 var fableUtils = require("fable-utils");
+const workboxPlugin = require('workbox-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 function resolve(filePath) {
     return path.join(__dirname, filePath)
@@ -22,8 +25,7 @@ module.exports = {
     mode: isProduction ? "production" : "development",
     devtool: isProduction ? undefined : "source-map",
     entry: {
-        client: resolve('./src/Client/Client.fsproj'),
-        sw: resolve('./src/ServiceWorker/ServiceWorker.fsproj')
+        client: resolve('./src/Client/Client.fsproj')
     },
     output: {
         path: resolve('./public'),
@@ -79,8 +81,56 @@ module.exports = {
             }
         ]
     },
-    plugins: isProduction ? [] : [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NamedModulesPlugin()
+    plugins: [
+        ...(isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]),
+        ...(isProduction ? [] : [new webpack.NamedModulesPlugin()]),
+        
+        new HtmlWebpackPlugin({
+            template: 'src/index.html'
+        }),
+        new CopyWebpackPlugin([
+            "src/manifest.json",
+            { from: "**", to: "icons/", context: "src/icons" },
+            { from: "src/Server/", to: "api/" }
+        ]),
+        new workboxPlugin.GenerateSW({
+            swDest: "sw.js",
+
+            exclude: [
+                /\.(?:png|jpg|jpeg|svg)$/,
+                /^manifest\.json$/,
+                /^api\//
+            ],
+
+            runtimeCaching: [
+                {
+                    urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                    handler: 'cacheFirst',
+                    options: {
+                        cacheName: 'images',
+                        expiration: {
+                            maxAgeSeconds: 60 * 60 * 24 * 7 // 1 week
+                        },
+                    },
+                },
+                {
+                    urlPattern: /\/api\/(?:.*)/,
+                    handler: 'networkFirst',
+                    options: {
+                        cacheName: 'api-cache'
+                    },
+                },
+                {
+                    urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
+                    handler: 'cacheFirst',
+                    options: {
+                        cacheName: 'google-fonts',
+                        expiration: {
+                            maxEntries: 30
+                        },
+                    },
+                }
+            ]
+        })
     ]
 };
