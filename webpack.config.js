@@ -95,7 +95,7 @@ module.exports = {
         ]),
         new SitemapPlugin('https://enserhof.github.io', [
             "/#aktivitaeten",
-            "/#ueber-den-hof",
+            "/#ueber-den-hof/expand-all",
             "/#lageplan"
         ]),
         new workboxPlugin.GenerateSW({

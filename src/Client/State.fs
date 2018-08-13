@@ -9,8 +9,9 @@ open Types
 
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
-    map UeberDenHof (s "ueber-den-hof")
     map Aktivitaeten (s "aktivitaeten")
+    map (UeberDenHof OpenMenusExpanded) (s "ueber-den-hof")
+    map (UeberDenHof AllMenusExpanded) (s "ueber-den-hof" </> s "expand-all")
     map Lageplan (s "lageplan")
     map Administration (s "administration")
   ]
@@ -19,7 +20,17 @@ let urlUpdate (page: Option<Page>) model =
   let (model', cmd') =
     page
     |> FSharp.Core.Option.map (fun page ->
-      { model with CurrentPage = page }, Cmd.none
+      match page with
+      | UeberDenHof AllMenusExpanded ->
+        printfn "UeberDenHof AllMenusExpanded"
+        let subModel, subCmd =
+          UeberDenHof.State.update UeberDenHof.Types.ExpandAllMenus model.UeberDenHof
+        { model with
+            CurrentPage = page
+            UeberDenHof = subModel
+        }, Cmd.map UeberDenHofMsg subCmd
+      | _ ->
+        { model with CurrentPage = page }, Cmd.none
     )
     |> FSharp.Core.Option.defaultWith (fun () ->
       console.error("Error parsing url")

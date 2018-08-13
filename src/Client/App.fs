@@ -29,7 +29,7 @@ let root model dispatch =
   let pageHtml =
     function
     | Aktivitaeten -> Aktivitaeten.View.root model.Aktivitaeten
-    | UeberDenHof -> UeberDenHof.View.root model.UeberDenHof (UeberDenHofMsg >> dispatch)
+    | UeberDenHof _menuState -> UeberDenHof.View.root model.UeberDenHof (UeberDenHofMsg >> dispatch)
     | Lageplan -> Lageplan.View.root
     | Administration -> Administration.View.root model.Administration (AdministrationMsg >> dispatch)
 

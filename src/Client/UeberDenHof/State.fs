@@ -12,3 +12,5 @@ let update msg model =
      { model with OpenMenus = Set.add item model.OpenMenus }, []
   | CloseMenu item ->
      { model with OpenMenus = Set.remove item model.OpenMenus }, []
+  | ExpandAllMenus ->
+    { model with OpenMenus = Set.ofList allMenuItems }, []

@@ -1,26 +1,34 @@
 module Global
 
-open Microsoft.FSharp.Reflection
-
 Fable.Helpers.Moment.moment.locale "de" |> ignore
+
+type UeberDenHofMenuState =
+  | OpenMenusExpanded
+  | AllMenusExpanded
 
 type Page =
   | Aktivitaeten
-  | UeberDenHof
+  | UeberDenHof of UeberDenHofMenuState
   | Lageplan
   | Administration
 
 let allPages =
-  let cases = FSharpType.GetUnionCases typeof<Page>
-  [ for c in cases -> FSharpValue.MakeUnion(c, [| |]) :?> Page ]
+  [
+    Aktivitaeten
+    UeberDenHof OpenMenusExpanded
+    Lageplan
+    Administration
+  ]
 
 let publicPages =
   allPages
   |> List.except [ Administration ]
 
-let toHash = function
+let toHash page =
+  match page with
   | Aktivitaeten -> "#aktivitaeten"
-  | UeberDenHof -> "#ueber-den-hof"
+  | UeberDenHof OpenMenusExpanded -> "#ueber-den-hof"
+  | UeberDenHof AllMenusExpanded -> "#ueber-den-hof/expand-all"
   | Lageplan -> "#lageplan"
   | Administration -> "#administration"
 
@@ -28,6 +36,7 @@ let toUrl = toHash >> fun s -> s.Replace("#", "/")
 
 let toString = function
   | Aktivitaeten -> "Aktivitäten"
-  | UeberDenHof -> "Über den Hof"
+  | UeberDenHof OpenMenusExpanded -> "Über den Hof"
+  | UeberDenHof AllMenusExpanded -> "Über den Hof"
   | Lageplan -> "Lageplan"
   | Administration -> "Administration"
