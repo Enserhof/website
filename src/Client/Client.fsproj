@@ -17,7 +17,6 @@
     <Compile Include="Administration/Types.fs" />
     <Compile Include="Administration/State.fs" />
     <Compile Include="Administration/View.fs" />
-    <Compile Include="Navbar/View.fs" />
     <Compile Include="Types.fs" />
     <Compile Include="State.fs" />
     <Compile Include="App.fs" />
