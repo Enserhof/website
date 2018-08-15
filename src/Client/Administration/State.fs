@@ -31,7 +31,7 @@ let rec update msg model =
   | LoadStallzeiten ->
     let cmd =
       Cmd.ofPromise
-        (fetchAs<GitHubApi.GetContentResponse> "https://api.github.com/repos/enserhof/enserhof.github.io/contents/public/api/stallzeiten")
+        (fetchAs<GitHubApi.GetContentResponse> "https://api.github.com/repos/enserhof/enserhof.github.io/contents/src/Server/stallzeiten")
         [ requestHeaders [ Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
         LoadStallzeitenSuccess
         (LoadStallzeitenError.HttpError >> LoadStallzeitenError)
