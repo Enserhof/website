@@ -89,14 +89,15 @@ module.exports = {
             template: 'src/index.html'
         }),
         new CopyWebpackPlugin([
+            "src/404.html",
             "src/manifest.json",
             { from: "**", to: "icons/", context: "src/icons" },
             { from: "src/Server/", to: "api/" }
         ]),
         new SitemapPlugin('https://enserhof.github.io', [
-            "/#aktivitaeten",
-            "/#ueber-den-hof/expand-all",
-            "/#lageplan"
+            "/aktivitaeten",
+            "/ueber-den-hof/expand-all",
+            "/lageplan"
         ]),
         new workboxPlugin.GenerateSW({
             swDest: "sw.js",

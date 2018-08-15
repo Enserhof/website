@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script>
+const path = document.location.pathname;
+const fileIndex = path.lastIndexOf("/") + 1;
+document.location.href = path.substring(0, fileIndex) + "#" + path.substring(fileIndex);
+  </script>
+</head>
+<body>
+</body>
+</html>
