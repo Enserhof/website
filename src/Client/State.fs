@@ -22,7 +22,6 @@ let urlUpdate (page: Option<Page>) model =
     |> FSharp.Core.Option.map (fun page ->
       match page with
       | UeberDenHof AllMenusExpanded ->
-        printfn "UeberDenHof AllMenusExpanded"
         let subModel, subCmd =
           UeberDenHof.State.update UeberDenHof.Types.ExpandAllMenus model.UeberDenHof
         { model with

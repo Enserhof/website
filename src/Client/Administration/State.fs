@@ -109,7 +109,6 @@ let rec update msg model =
       model, cmd
     | _ -> model, []
   | SaveStallzeitenSuccess version ->
-    printfn "Success"
     match model.RemoteStallzeiten with
     | Loaded stallzeiten ->
       let model' =
