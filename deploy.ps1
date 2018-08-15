@@ -20,18 +20,19 @@ try {
 	try {
 	  $isDirty = git status -s
 	  if ($isDirty) {
-		Write-Host "Work tree dirty, committing changes"
-		git add .; ExitOnError
-		git commit -m "Build $commitHash"; ExitOnError
-		git push $remoteName HEAD:master 2>&1; ExitOnError
+			Write-Host "Work tree dirty, committing changes"
+			git add .; ExitOnError
+			git commit -m "Build $commitHash"; ExitOnError
+			git push $remoteName HEAD:master 2>&1; ExitOnError
 	  }
 	  else {
-		Write-Host "Work tree clean, no commit necessary"
+			Write-Host "Work tree clean, no commit necessary"
 	  }
 	}
 	finally {
 	  Pop-Location
 	}
+}
 finally {
 	git worktree remove $buildOutputDir --force; ExitOnError
 }
