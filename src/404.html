@@ -3,8 +3,7 @@
 <head>
   <script>
 const path = document.location.pathname;
-const fileIndex = path.lastIndexOf("/") + 1;
-document.location.href = path.substring(0, fileIndex) + "#" + path.substring(fileIndex);
+document.location.href = path.substring(0, 1) + "#" + path.substring(1);
   </script>
 </head>
 <body>
