@@ -3,6 +3,7 @@ module App.State
 open Elmish
 open Elmish.Browser.Navigation
 open Elmish.Browser.UrlParser
+open Fable.Core.JsInterop
 open Fable.Import.Browser
 open Global
 open Types
@@ -36,7 +37,28 @@ let urlUpdate (page: Option<Page>) model =
       model, Navigation.modifyUrl (toHash model.CurrentPage)
     )
   
-  Fable.Import.Browser.window.document.title <- toString model'.CurrentPage |> sprintf "%s | Enserhof z'Ehrndorf"
+  window.document.title <- toString model'.CurrentPage |> sprintf "%s | Enserhof z'Ehrndorf"
+
+  do
+    let elem =
+      match document.querySelector "meta[rel=canonical]" with
+      | e when not !!e ->
+        let elem = document.createElement "meta"
+        elem.setAttribute("rel", "canonical")
+        document.head.appendChild elem :?> Element
+      | e -> e
+    elem.setAttribute("href", sprintf "https://enserhof.github.io%s" (toUrl model'.CurrentPage))
+
+  do
+    let elem =
+      match document.querySelector "meta[rel=alternate]" with
+      | e when not !!e ->
+        let elem = document.createElement "meta"
+        elem.setAttribute("rel", "alternate")
+        elem.setAttribute("hreflang", "de")
+        document.head.appendChild elem :?> Element
+      | e -> e
+    elem.setAttribute("href", sprintf "https://enserhof.github.io%s" (toUrl model'.CurrentPage))
 
   GTag.setPage GTag.trackingId (toUrl model'.CurrentPage)
 
