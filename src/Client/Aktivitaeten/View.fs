@@ -43,6 +43,29 @@ let root model =
   [ Heading.h1 [ Heading.Is3 ]
       [ str "Aktivitäten" ]
     Heading.h2 [ Heading.Is4 ]
+      [ str "Rindfleisch Ab-Hof-Verkauf" ]
+    Content.content []
+      [ p [] [ span [] [ str "Liebe Leute!" ] ]
+        p [] [ span [] [ str "Wir haben am Mittwoch, 24. Oktober 2018, von 17-18 Uhr frisches Rindfleisch von unseren zwei Kühen zu verkaufen." ] ]
+        Columns.columns [ ]
+          [ Column.column [ Column.Width (Screen.All, Column.IsNarrow) ]
+              [ ul []
+                  [
+                    let items = [
+                      "Rindsschnitzel", "16"
+                      "Braten", "16"
+                      "Kochfleisch", "11"
+                      "Gulasch", "11"
+                      "Rohwürstl", "20"
+                      "Gebratene Wurst", "15"
+                    ]
+                    for (name, price) in items ->
+                      li [] [ str (sprintf "%s: %s € / kg" name price) ] ] ]
+            Column.column [ Column.Width (Screen.All, Column.IsNarrow) ]
+              [ div [ Style [ MarginTop "1em" ] ]
+                  [ img [ Src (importAll "../../images/tiere/kuehe.jpg"); Style [ Height "150px" ] ] ] ] ]
+        p [] [ span [] [ str "Wir bitten um Rückmeldung bis Dienstag Abend, was und wie portioniert ihr es braucht. Bsp.: 6 x 5 Rindsschnitzel." ] ] ]
+    Heading.h2 [ Heading.Is4 ]
       [ str "Stallarbeit erledigen" ]
     Content.content []
       [ p []
