@@ -10,9 +10,11 @@ open Fulma
 open Fulma.FontAwesome
 
 let root model =
-  let formatTime (dateTime: DateTime) =
-    let momentTime = moment.Invoke dateTime
-    momentTime.format "dd, DD. MMMM YYYY, HH:mm \\U\\h\\r"
+  let formatStallzeit = function
+    | Timestamp dateTime ->
+      let momentTime = moment.Invoke dateTime
+      momentTime.format "dd, DD. MMMM YYYY, HH:mm \\U\\h\\r"
+    | InfoText v -> v
 
   let stallzeitenContent =
     match model.Stallzeiten with
@@ -22,21 +24,26 @@ let root model =
           [ Fa.icon Fa.I.Spinner; Fa.spin ] ]
     | Loaded times ->
         times
-        |> List.filter (fun d -> d.Date >= DateTime.Today)
-        |> List.sort
+        |> List.filter (function
+          | Timestamp v -> v.Date >= DateTime.Today
+          | InfoText _ -> true)
+        |> List.sortBy (function
+          | Timestamp v -> v.Ticks
+          | InfoText _ -> DateTime.MinValue.Ticks - 1L // Infos come first
+        )
         |> function
         | [] ->
           [ str "Nächste Stallzeit: "
             b [] [ str "Wird noch bekannt gegeben" ] ]
         | [ time ] ->
           [ str "Nächste Stallzeit: "
-            b [] [ str (formatTime time) ] ]
+            b [] [ str (formatStallzeit time) ] ]
         | times ->
           [ str "Nächste Stallzeiten: "
             ul []
               [ for time in times ->
                 li []
-                  [ b [] [ str (formatTime time) ] ] ] ]
+                  [ b [] [ str (formatStallzeit time) ] ] ] ]
     | LoadError (HttpError _e) ->
       [ str "Fehler beim Laden der nächsten Stallzeiten. Bitte auf der Tafel, die vor unserem Hoftor steht, ablesen." ]
 

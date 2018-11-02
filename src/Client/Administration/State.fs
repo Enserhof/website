@@ -8,7 +8,6 @@ open Types.GitHubApi
 open Fable.Core
 open Fable.Core.JsInterop
 open Fable.Import.Browser
-open Fable.Helpers.Moment
 open Fable.PowerPack
 open Fable.PowerPack.Fetch
 
@@ -41,14 +40,18 @@ let rec update msg model =
       let stallzeiten =
         file.content
         |> window.atob
-        |> ofJson<DateTime list>
+        |> ofJson<Aktivitaeten.Types.Stallzeit list>
       let model' =
         { model with
             RemoteStallzeiten = Loaded { Version = file.sha; FileUrl = file.url; Stallzeiten = stallzeiten }
             LocalStallzeiten =
               stallzeiten
               |> List.map (fun timestamp ->
-                { Id = System.Guid.NewGuid().ToString() ; Value = Valid timestamp })
+                let stallzeitValue =
+                  match timestamp with
+                  | Aktivitaeten.Types.Timestamp v -> Timestamp (Valid v)
+                  | Aktivitaeten.Types.InfoText v -> InfoText v
+                { Id = System.Guid.NewGuid().ToString(); Value = stallzeitValue })
         }
       model', []
     with e ->
@@ -64,20 +67,21 @@ let rec update msg model =
   | Login ->
     setGitHubAccessToken model.GitHubAccessToken
     update LoadStallzeiten model
-  | UpdateStallzeit (timeId, time) ->
+  | UpdateStallzeit (timeId, value) ->
     let updateTime stallzeit =
-      let value =
-        match moment.Invoke(time, U3.Case1 "YYYY-MM-DDTHH:mm", true) with
-        | value when value.isValid() -> Valid(value.toDate())
-        | _ -> Invalid time
       if timeId = stallzeit.Id
       then { Id = timeId; Value = value }
       else stallzeit
     { model with LocalStallzeiten = model.LocalStallzeiten |> List.map updateTime }, []
-  | AddStallzeit ->
+  | AddStallzeitTimestamp ->
     let newStallzeit = {
       Id = Guid.NewGuid().ToString()
-      Value = Valid (DateTime.Today.AddDays(1.).AddHours(8.5)) }
+      Value = Timestamp (Valid (DateTime.Today.AddDays(1.).AddHours(8.5))) }
+    { model with LocalStallzeiten = model.LocalStallzeiten @ [ newStallzeit ] }, []
+  | AddStallzeitInfoText ->
+    let newStallzeit = {
+      Id = Guid.NewGuid().ToString()
+      Value = InfoText "" }
     { model with LocalStallzeiten = model.LocalStallzeiten @ [ newStallzeit ] }, []
   | RemoveStallzeit timeId ->
     let stallzeiten' =
@@ -91,8 +95,9 @@ let rec update msg model =
         model.LocalStallzeiten
         |> List.choose (fun item ->
           match item.Value with
-          | Valid value -> Some value
-          | Invalid _ -> None
+          | Timestamp (Valid value) -> Some (Aktivitaeten.Types.Timestamp value)
+          | Timestamp (Invalid _) -> None
+          | InfoText v -> Some (Aktivitaeten.Types.InfoText v)
         )
       let body = {
         message = "Update Stallzeiten"

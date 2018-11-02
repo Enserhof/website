@@ -5,9 +5,13 @@ open System
 type LoadStallzeitenError =
     | HttpError of exn
 
+type Stallzeit =
+    | Timestamp of DateTime
+    | InfoText of string
+
 type Stallzeiten =
     | Loading
-    | Loaded of DateTime list
+    | Loaded of Stallzeit list
     | LoadError of LoadStallzeitenError
 
 type Model = {
@@ -15,5 +19,5 @@ type Model = {
 }
 
 type Msg =
-  | LoadStallzeitenSuccess of DateTime list
+  | LoadStallzeitenSuccess of Stallzeit list
   | LoadStallzeitenError of LoadStallzeitenError

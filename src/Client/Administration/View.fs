@@ -1,15 +1,18 @@
 module Administration.View
 
+open System
 open Types
 open Fulma
 open Fulma.FontAwesome
+open Fable.Core
 open Fable.Helpers.Moment
 open Fable.Helpers.React
+open Fable.Helpers.React.Props
 
 let root model dispatch =
-  let timeInput time =
+  let timeInput fieldId time =
     let (value, color) =
-      match time.Value with
+      match time with
       | Valid value ->
         let momentTime = moment.Invoke value
         momentTime.format "YYYY-MM-DDTHH:mm", Color.IsSuccess
@@ -20,15 +23,42 @@ let root model dispatch =
           [ Input.datetimeLocal
               [ Input.Value value
                 Input.Color color
-                Input.OnChange (fun evt -> dispatch (UpdateStallzeit (time.Id, evt.Value))) ]
+                Input.OnChange (fun evt ->
+                  let value =
+                    match moment.Invoke(evt.Value, U3.Case1 "YYYY-MM-DDTHH:mm", true) with
+                    | value when value.isValid() -> Valid (value.toDate())
+                    | _ -> Invalid evt.Value
+                    |> Timestamp
+                  dispatch (UpdateStallzeit (fieldId, value))) ]
             Icon.faIcon [ Icon.IsLeft ]
               [ Fa.icon Fa.I.Calendar ] ]
         Control.p []
           [ Button.button
               [ Button.Color Color.IsDanger
-                Button.OnClick (fun _evt -> dispatch (RemoveStallzeit time.Id)) ]
+                Button.OnClick (fun _evt -> dispatch (RemoveStallzeit fieldId)) ]
               [ Icon.faIcon []
                   [ Fa.icon Fa.I.Trash ] ] ] ]
+
+  let infoTextInput fieldId text =
+    Field.div [ Field.HasAddons ]
+      [ Control.p [ Control.HasIconLeft ]
+          [ Input.text
+              [ Input.Value text
+                Input.Color (if String.IsNullOrWhiteSpace text then Color.IsDanger else Color.IsSuccess)
+                Input.OnChange (fun evt -> dispatch (UpdateStallzeit (fieldId, InfoText evt.Value))) ]
+            Icon.faIcon [ Icon.IsLeft ]
+              [ Fa.icon Fa.I.Info ] ]
+        Control.p []
+          [ Button.button
+              [ Button.Color Color.IsDanger
+                Button.OnClick (fun _evt -> dispatch (RemoveStallzeit fieldId)) ]
+              [ Icon.faIcon []
+                  [ Fa.icon Fa.I.Trash ] ] ] ]
+
+  let stallzeitInput stallzeit =
+    match stallzeit.Value with
+    | Timestamp v -> timeInput stallzeit.Id v
+    | InfoText v -> infoTextInput stallzeit.Id v
 
   let existingStallzeiten =
     match model.RemoteStallzeiten with
@@ -51,13 +81,20 @@ let root model dispatch =
           [ Fa.icon Fa.I.Spinner; Fa.spin ] ]
     | Loaded _ ->
         [
-          yield! List.map timeInput model.LocalStallzeiten
+          yield! List.map stallzeitInput model.LocalStallzeiten
           yield Field.div [ Field.IsGrouped ]
             [ Control.p []
                 [ Button.button
                     [ Button.Color Color.IsSuccess
-                      Button.OnClick (fun _evt -> dispatch AddStallzeit) ]
-                    [ Icon.faIcon [] [ Fa.icon Fa.I.Plus ] ] ]
+                      Button.OnClick (fun _evt -> dispatch AddStallzeitTimestamp)
+                      Button.Props [ Title "Zeitpunkt hinzufügen" ] ]
+                    [ Icon.faIcon [] [ Fa.icon Fa.I.CalendarPlusO ] ] ]
+              Control.p []
+                [ Button.button
+                    [ Button.Color Color.IsSuccess
+                      Button.OnClick (fun _evt -> dispatch AddStallzeitInfoText)
+                      Button.Props [ Title "Infotext hinzufügen" ] ]
+                    [ Icon.faIcon [] [ Fa.icon Fa.I.FileText ] ] ]
               Control.p []
                 [ Button.button
                     [ Button.Color Color.IsSuccess

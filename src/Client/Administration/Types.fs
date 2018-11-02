@@ -30,9 +30,13 @@ type LoadStallzeitenError =
 type SaveStallzeitenError =
   | HttpError of exn
 
-type StallzeitValue =
+type StallzeitTimestampValue =
   | Invalid of string
   | Valid of DateTime
+
+type StallzeitValue =
+  | Timestamp of StallzeitTimestampValue
+  | InfoText of string
 
 type LocalStallzeit = {
   Id: string
@@ -42,7 +46,7 @@ type LocalStallzeit = {
 type LoadedStallzeiten = {
   Version: string
   FileUrl: string
-  Stallzeiten: DateTime list
+  Stallzeiten: Aktivitaeten.Types.Stallzeit list
 }
 
 type Stallzeiten =
@@ -63,8 +67,9 @@ type Msg =
   | LoadStallzeitenError of LoadStallzeitenError
   | UpdateGitHubAccessToken of string
   | Login
-  | UpdateStallzeit of (string * string)
-  | AddStallzeit
+  | UpdateStallzeit of (string * StallzeitValue)
+  | AddStallzeitTimestamp
+  | AddStallzeitInfoText
   | RemoveStallzeit of string
   | SaveStallzeiten
   | SaveStallzeitenSuccess of string
