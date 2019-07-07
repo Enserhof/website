@@ -40,14 +40,14 @@ module GitHubApi =
 
   // see https://developer.github.com/v3/repos/contents/#response-2
   type SetContentResponse = {
-    Content: GetContentResponse
+    Sha: string
   }
 
   module SetContentResponse =
     let decoder: Decoder<_> =
       Decode.object (fun get ->
         {
-          Content = get.Required.Field "content" GetContentResponse.decoder
+          Sha = get.Required.At ["content"; "sha"] Decode.string
         }
       )
 
@@ -100,5 +100,5 @@ type Msg =
   | AddStallzeitInfoText
   | RemoveStallzeit of string
   | SaveStallzeiten
-  | SaveStallzeitenSuccess of string
+  | SaveStallzeitenSuccess of GitHubApi.SetContentResponse
   | SaveStallzeitenError of SaveStallzeitenError

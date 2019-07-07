@@ -106,11 +106,11 @@ let rec update msg model =
             let properties = [ Fetch.requestHeaders [ Fetch.Types.Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
             Fetch.put (remoteStallzeiten.FileUrl, SetContentRequest.encode body, SetContentResponse.decoder, properties))
           ()
-          (fun response -> SaveStallzeitenSuccess response.Content.Sha)
+          SaveStallzeitenSuccess
           (HttpError >> SaveStallzeitenError)
       model, cmd
     | _ -> model, []
-  | SaveStallzeitenSuccess version ->
+  | SaveStallzeitenSuccess response ->
     match model.RemoteStallzeiten with
     | Loaded stallzeiten ->
       let model' =
@@ -118,7 +118,7 @@ let rec update msg model =
             RemoteStallzeiten =
               Loaded
                 { stallzeiten with
-                    Version = version
+                    Version = response.Sha
                 }
         }
       let cmd =
