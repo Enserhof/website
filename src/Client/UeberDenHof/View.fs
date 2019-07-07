@@ -55,7 +55,7 @@ let root model dispatch =
       [ str "Tiere" ]
     Tile.ancestor [ ]
       [ Tile.parent [ Tile.IsVertical; Tile.Size Tile.Is8 ]
-          [ Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
+          [ Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Esel
                 "Lilly & Paula"
@@ -74,7 +74,7 @@ let root model dispatch =
                       br []
                       str "Deshalb die beiden bitte nicht mehr füttern. Danke!" ] ]
                 (image (importAll "../../images/tiere/esel.jpg")))
-            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
+            Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Ponys
                 "Laika & Luna"
@@ -85,41 +85,43 @@ let root model dispatch =
                   p []
                     [ str "Bezüglich dem Fressen gilt das gleiche wie bei den Eseln." ] ]
                 (image (importAll "../../images/tiere/ponys.jpg")))
-            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
-              (animalBox
-                Kuehe
-                "Josephine & Rosi"
-                [ p []
-                    [ str "Unsere beiden Zwergzeburinder kamen ebenfalls 2017 zu uns auf dem Hof."
-                      br []
-                      str "Die Kühe hatten beim Vorbesitzer sehr wenig Menschenkontakt, deshalb sind sie leider immer noch etwas schreckhaft." ] ]
-                (image (importAll "../../images/tiere/kuehe.jpg"))) ]
-        Tile.parent [ Tile.IsVertical ]
-          [ Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
-              (animalBox
-                Hasen
-                "Minki, Quetschi und Familie"
-                [ p []
-                    [ str "Unsere Hasen leben ebenfalls seit 2017 auf unserem Hof. Die beiden Eltern sorgten innerhalb dieser Zeit schon vier mal für Nachwuchs. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
-                (image (importAll "../../images/tiere/hasen.jpg")))
-            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
+            Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Huehner
                 "Hahn & Hühner"
                 [ p []
                     [ str "Unsere kleine Hühnerschar besteht aus einem stolzen Hahn und 13 Hühner. Sie lieben es sich unter den Sträuchern zu verkriechen und sich in der Erde zu wälzen." ] ]
                 (image (importAll "../../images/tiere/huehner.jpg")))
-            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
+          ]
+        Tile.parent [ Tile.IsVertical ]
+          [ Tile.child [ Tile.CustomClass "box" ]
+              (animalBox
+                Hasen
+                "Minki, Quetschi und Familie"
+                [ p []
+                    [ str "Unsere Hasen leben ebenfalls seit 2017 auf unserem Hof. Die beiden Eltern sorgten innerhalb dieser Zeit schon vier mal für Nachwuchs. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
+                (image (importAll "../../images/tiere/hasen.jpg")))
+            Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Puma
                 "Puma"
                 [ p []
                     [ str "Unser Wachhund Puma lebt seit 2015 auf unserem Hof. Puma ist ein sehr netter Kerl. Er liebt Kinder über alles und tut keiner Mücke etwas zu Leide. Puma liebt es im Garten (oder in der Sandkiste) zu spielen." ] ]
                 (image (importAll "../../images/tiere/hund.jpg")))
-            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
+            Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Maxi
                 "Maxi"
                 [ p []
                     [ str "Unser Maxi ist 2011 am Enserhof geboren. Er ist ein unkomplizierter, liebevoller und treuer Wegbegleiter." ] ]
-                (image (importAll "../../images/tiere/maxi.jpg"))) ] ] ]
+                (image (importAll "../../images/tiere/maxi.jpg")))
+            Tile.child [ Tile.CustomClass "box" ]
+              (animalBox
+                Lilo
+                "Lilo"
+                [ p []
+                    [ str "Lilo ist uns im Herbst 2018 in einer stürmigen Nacht zugelaufen. Wir versuchten zwar, den Besitzer ausfindig zu machen, insgeheim hofften wir aber von Anfang an, dass Lilo bei uns bleiben kann. Sie ist eine äußerst zutrauliche Katze, will immer voll dabei sein und folgt oft auf Schritt und Tritt. Bei der Mäusejagd unterstützt sie Maxi tatkräftig und sehr erfolgreich." ] ]
+                (image (importAll "../../images/tiere/lilo.jpg")))
+          ]
+      ]
+  ]

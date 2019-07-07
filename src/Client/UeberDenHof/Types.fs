@@ -5,11 +5,11 @@ open Microsoft.FSharp.Reflection
 type MenuItem =
   | Esel
   | Ponys
-  | Kuehe
   | Hasen
   | Huehner
   | Puma
   | Maxi
+  | Lilo
 
 let allMenuItems =
   let cases = FSharpType.GetUnionCases typeof<MenuItem>
