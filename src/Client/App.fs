@@ -1,18 +1,16 @@
 module App.View
 
 open Elmish
-open Elmish.Browser.Navigation
-open Elmish.Browser.UrlParser
+open Elmish.Navigation
+open Elmish.UrlParser
 open Fable.Core.JsInterop
 open App.State
 open App.Types
 open Global
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fulma
 
-importAll "../../node_modules/bulma/bulma.sass"
-importAll "../../node_modules/font-awesome/scss/font-awesome.scss"
 importAll "../../sass/main.sass"
 
 let menuItem page currentPage =
@@ -59,30 +57,28 @@ let root model dispatch =
 
 open Elmish.React
 open Elmish.Debug
-open Elmish.HMR
+open Elmish.HMR // Must be last Elmish.* open declaration (see https://elmish.github.io/hmr/#Usage)
 
 // App
 Program.mkProgram init update root
 |> Program.toNavigable (parseHash pageParser) urlUpdate
 #if DEBUG
 |> Program.withDebugger
-|> Program.withHMR
+|> Program.withConsoleTrace
 #endif
-|> Program.withReact "elmish-app"
+|> Program.withReactBatched "elmish-app"
 |> Program.run
 
-open Fable.Import
-open Fable.PowerPack
-
-if !!Browser.navigator.serviceWorker
-then
-  Browser.window.addEventListener_load(fun _evt ->
+match Browser.Navigator.navigator.serviceWorker with
+| Some serviceWorker ->
+  Browser.Dom.window.addEventListener("load", fun _evt ->
     promise {
       try
-        let! registration = Browser.navigator.serviceWorker.register "sw.js"
-        Browser.console.log("Service Worker is registered", registration)
+        let! registration = serviceWorker.register "sw.js"
+        Browser.Dom.console.log("Service Worker is registered", registration)
       with e ->
-        Browser.console.error("ServiceWorker registration failed", e)
+        Browser.Dom.console.error("ServiceWorker registration failed", e)
     }
     |> Promise.start
   )
+| None -> ()

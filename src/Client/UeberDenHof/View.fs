@@ -2,10 +2,10 @@ module UeberDenHof.View
 
 open Types
 open Fable.Core.JsInterop
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.FontAwesome
+open Fable.React
+open Fable.React.Props
 open Fulma
-open Fulma.FontAwesome
 
 let root model dispatch =
   let h3 text =
@@ -20,15 +20,15 @@ let root model dispatch =
       then (CloseMenu menuItem, "is-expanded")
       else (OpenMenu menuItem, "is-collapsed")
     Button.a
-      [ Button.Color Color.IsWhite
+      [ Button.Color IsWhite
         Button.Modifiers [ Modifier.IsPulledRight ]
         Button.OnClick (fun _evt -> dispatch cmd)
         Button.CustomClass stateClass ]
-      [ Icon.faIcon [ ]
-          [ Fa.icon Fa.I.AngleRight; Fa.fa2x ] ]
+      [ Icon.icon [ ]
+          [ Fa.i [ Fa.Solid.AngleRight; Fa.Size Fa.Fa2x ] [] ] ]
 
   let animalBox item title collapsableContent picture =
-    [ div [ ClassName Modifier.Classes.Helpers.IsClearfix ]
+    [ Text.div [ Modifiers [ Modifier.IsClearfix ] ]
         [ openMenuButton item
           h3 title ]
       Content.content [ Content.CustomClass (if Set.contains item model.OpenMenus then "is-open" else "is-closed") ]
@@ -55,7 +55,7 @@ let root model dispatch =
       [ str "Tiere" ]
     Tile.ancestor [ ]
       [ Tile.parent [ Tile.IsVertical; Tile.Size Tile.Is8 ]
-          [ Tile.child [ Tile.CustomClass Box.Classes.Container ]
+          [ Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Esel
                 "Lilly & Paula"
@@ -74,7 +74,7 @@ let root model dispatch =
                       br []
                       str "Deshalb die beiden bitte nicht mehr füttern. Danke!" ] ]
                 (image (importAll "../../images/tiere/esel.jpg")))
-            Tile.child [ Tile.CustomClass Box.Classes.Container ]
+            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Ponys
                 "Laika & Luna"
@@ -85,7 +85,7 @@ let root model dispatch =
                   p []
                     [ str "Bezüglich dem Fressen gilt das gleiche wie bei den Eseln." ] ]
                 (image (importAll "../../images/tiere/ponys.jpg")))
-            Tile.child [ Tile.CustomClass Box.Classes.Container ]
+            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Kuehe
                 "Josephine & Rosi"
@@ -95,28 +95,28 @@ let root model dispatch =
                       str "Die Kühe hatten beim Vorbesitzer sehr wenig Menschenkontakt, deshalb sind sie leider immer noch etwas schreckhaft." ] ]
                 (image (importAll "../../images/tiere/kuehe.jpg"))) ]
         Tile.parent [ Tile.IsVertical ]
-          [ Tile.child [ Tile.CustomClass Box.Classes.Container ]
+          [ Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Hasen
                 "Minki, Quetschi und Familie"
                 [ p []
                     [ str "Unsere Hasen leben ebenfalls seit 2017 auf unserem Hof. Die beiden Eltern sorgten innerhalb dieser Zeit schon vier mal für Nachwuchs. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
                 (image (importAll "../../images/tiere/hasen.jpg")))
-            Tile.child [ Tile.CustomClass Box.Classes.Container ]
+            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Huehner
                 "Hahn & Hühner"
                 [ p []
                     [ str "Unsere kleine Hühnerschar besteht aus einem stolzen Hahn und 13 Hühner. Sie lieben es sich unter den Sträuchern zu verkriechen und sich in der Erde zu wälzen." ] ]
                 (image (importAll "../../images/tiere/huehner.jpg")))
-            Tile.child [ Tile.CustomClass Box.Classes.Container ]
+            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Puma
                 "Puma"
                 [ p []
                     [ str "Unser Wachhund Puma lebt seit 2015 auf unserem Hof. Puma ist ein sehr netter Kerl. Er liebt Kinder über alles und tut keiner Mücke etwas zu Leide. Puma liebt es im Garten (oder in der Sandkiste) zu spielen." ] ]
                 (image (importAll "../../images/tiere/hund.jpg")))
-            Tile.child [ Tile.CustomClass Box.Classes.Container ]
+            Tile.child [ (* Tile.CustomClass Box.Classes.Container *) ]
               (animalBox
                 Maxi
                 "Maxi"

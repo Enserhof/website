@@ -1,20 +1,25 @@
 module Lageplan.View
 
 open Fable.Core.JsInterop
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
+open Fable.React
+open Fable.React.Props
 open Fulma
 
 // https://fettblog.eu/blog/2013/06/16/preserving-aspect-ratio-for-embedded-iframes/
 let aspectRatio percent element =
   let elementStyle = [
-    Position "absolute"
+    Position PositionOptions.Absolute
     Width "100%"
     Height "100%"
     Left "0"
     Top "0"
   ]
-  div [ Style [ Position "relative"; Width "100%"; Height "0"; PaddingBottom (sprintf "%d%%" (1. / percent * 100. |> int)) ] ]
+  div
+    [ Style
+        [ Position PositionOptions.Relative
+          Width "100%"
+          Height "0"
+          PaddingBottom (sprintf "%d%%" (1. / percent * 100. |> int)) ] ]
     [ element elementStyle ]
 
 let root =

@@ -1,15 +1,15 @@
 module Aktivitaeten.State
 
-open System
 open Elmish
+open Thoth.Fetch
+open Thoth.Json
 open Types
-open Fable.PowerPack.Fetch
 
 let init : Model * Cmd<Msg> =
   let loadStallzeitenCmd =
-    Cmd.ofPromise
-      (fetchAs<Stallzeit list> (sprintf "api/stallzeiten"))
-      []
+    Cmd.OfPromise.either
+      (fun () -> Fetch.fetchAs ("api/stallzeiten", Decode.list Stallzeit.decoder))
+      ()
       LoadStallzeitenSuccess
       (HttpError >> LoadStallzeitenError)
   { Stallzeiten = Loading }, loadStallzeitenCmd

@@ -1,49 +1,118 @@
+// Template for webpack.config.js in Fable projects
+// Find latest version in https://github.com/fable-compiler/webpack-config-template
+
+// In most cases, you'll only need to edit the CONFIG object (after dependencies)
+// See below if you need better fine-tuning of Webpack options
+
+// Dependencies. Also required: core-js, fable-loader, fable-compiler, @babel/core,
+// @babel/preset-env, babel-loader, sass, sass-loader, css-loader, style-loader, file-loader
 var path = require("path");
 var webpack = require("webpack");
-var fableUtils = require("fable-utils");
+var HtmlWebpackPlugin = require('html-webpack-plugin');
+var CopyWebpackPlugin = require('copy-webpack-plugin');
+var MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const workboxPlugin = require('workbox-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
-function resolve(filePath) {
-    return path.join(__dirname, filePath)
+var CONFIG = {
+    // The tags to include the generated JS and CSS will be automatically injected in the HTML template
+    // See https://github.com/jantimon/html-webpack-plugin
+    indexHtmlTemplate: "./src/index.html",
+    fsharpEntry: "./src/Client/Client.fsproj",
+    cssEntry: "./sass/main.sass",
+    outputDir: "./deploy",
+    assetsDir: "./public",
+    devServerPort: 8080,
+    // Use babel-preset-env to generate JS compatible with most-used browsers.
+    // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
+    babel: {
+        presets: [
+            ["@babel/preset-env", {
+                "targets": "> 0.25%, not dead",
+                "modules": false,
+                // This adds polyfills when needed. Requires core-js dependency.
+                // See https://babeljs.io/docs/en/babel-preset-env#usebuiltins
+                "useBuiltIns": "entry",
+                "corejs": "3.1.4",
+            }]
+        ],
+    }
 }
 
-var babelOptions = fableUtils.resolveBabelOptions({
-    presets: [["env", { "modules": false }]],
-    plugins: [["transform-runtime", {
-        "helpers": true,
-        "polyfill": true,
-        "regenerator": false
-    }]]
-});
-
-var isProduction = process.argv.indexOf("-p") >= 0;
+// If we're running the webpack-dev-server, assume we're in development mode
+var isProduction = !process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
+// The HtmlWebpackPlugin allows us to use a template for the index.html page
+// and automatically injects <script> or <link> tags for generated bundles.
+var commonPlugins = [
+    new HtmlWebpackPlugin({
+        filename: 'index.html',
+        template: resolve(CONFIG.indexHtmlTemplate)
+    })
+];
+
 module.exports = {
-    mode: isProduction ? "production" : "development",
-    devtool: isProduction ? undefined : "source-map",
-    entry: {
-        client: resolve('./src/Client/Client.fsproj')
-    },
+    // In development, bundle styles together with the code so they can also
+    // trigger hot reloads. In production, put them in a separate CSS file.
+    entry: isProduction ?
+        { app: [resolve(CONFIG.fsharpEntry), resolve(CONFIG.cssEntry)] } :
+        {
+            app: [resolve(CONFIG.fsharpEntry)],
+            style: [resolve(CONFIG.cssEntry)]
+        },
+    // Add a hash to the output file name in production
+    // to prevent browser caching if code changes
     output: {
-        path: resolve('./public'),
-        filename: "[name].js",
-        globalObject: "this" //https://github.com/webpack/webpack/issues/6642
+        path: resolve(CONFIG.outputDir),
+        filename: isProduction ? '[name].[hash].js' : '[name].js'
     },
+    mode: isProduction ? "production" : "development",
+    devtool: isProduction ? "source-map" : "eval-source-map",
+    optimization: {
+        // Split the code coming from npm packages into a different file.
+        // 3rd party dependencies change less often, let the browser cache them.
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /node_modules/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        },
+    },
+    // Besides the HtmlPlugin, we use the following plugins:
+    // PRODUCTION
+    //      - MiniCssExtractPlugin: Extracts CSS from bundle to a different file
+    //          To minify CSS, see https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
+    //      - CopyWebpackPlugin: Copies static assets to output directory
+    // DEVELOPMENT
+    //      - HotModuleReplacementPlugin: Enables hot reloading when code changes without refreshing
+    plugins: isProduction ?
+        commonPlugins.concat([
+            new MiniCssExtractPlugin({ filename: 'style.css' }),
+            new CopyWebpackPlugin([{ from: resolve(CONFIG.assetsDir) }]),
+        ])
+        : commonPlugins.concat([
+            new webpack.HotModuleReplacementPlugin(),
+        ]),
     resolve: {
-        modules: [
-            "node_modules", resolve("./node_modules/")
-        ]
+        // See https://github.com/fable-compiler/Fable/issues/1490
+        symlinks: false
     },
     devServer: {
-        contentBase: resolve('./public'),
-        port: 8080,
+        publicPath: "/",
+        contentBase: [ resolve(CONFIG.assetsDir), resolve("./src/Server") ],
+        port: CONFIG.devServerPort,
+        proxy: CONFIG.devServerProxy,
         hot: true,
         inline: true
     },
+    // - fable-loader: transforms F# into JS
+    // - babel-loader: transforms JS to old syntax (compatible with old browsers)
+    // - sass-loaders: transforms SASS/SCSS into JS
+    // - file-loader: Moves files referenced in the code (fonts, images) into output folder
     module: {
         rules: [
             {
@@ -51,8 +120,7 @@ module.exports = {
                 use: {
                     loader: "fable-loader",
                     options: {
-                        babel: babelOptions,
-                        define: isProduction ? [] : ["DEBUG"]
+                        babel: CONFIG.babel
                     }
                 }
             },
@@ -61,85 +129,89 @@ module.exports = {
                 exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
-                    options: babelOptions
+                    options: CONFIG.babel
                 },
             },
             {
                 test: /\.(sass|scss|css)$/,
                 use: [
-                    "style-loader",
-                    "css-loader",
-                    "sass-loader"
-                ]
+                    isProduction
+                        ? MiniCssExtractPlugin.loader
+                        : 'style-loader',
+                    'css-loader',
+                    {
+                    loader: 'sass-loader',
+                    options: { implementation: require("sass") }
+                    }
+                ],
             },
             {
-                test: /\.(png|jpg|gif)$/,
-                use: "file-loader"
-            },
-            {
-                test: /\.(eot|svg|ttf|woff|woff2)(\?v=\d+\.\d+\.\d+)?$/,
-                use: "file-loader"
+                test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
+                use: ["file-loader"]
             }
         ]
     },
-    plugins: [
-        ...(isProduction ? [] : [new webpack.HotModuleReplacementPlugin()]),
-        ...(isProduction ? [] : [new webpack.NamedModulesPlugin()]),
-        new HtmlWebpackPlugin({
-            template: 'src/index.html'
-        }),
-        new CopyWebpackPlugin([
-            "src/404.html",
-            "src/manifest.json",
-            { from: "**", to: "icons/", context: "src/icons" },
-            { from: "src/Server/", to: "api/" }
-        ]),
-        new SitemapPlugin('https://enserhof.github.io', [
-            "/aktivitaeten",
-            "/ueber-den-hof/expand-all",
-            "/lageplan"
-        ]),
-        new workboxPlugin.GenerateSW({
-            swDest: "sw.js",
-
-            exclude: [
-                /\.(?:png|jpg|jpeg|svg)$/,
-                /^manifest\.json$/,
-                /^api\//
-            ],
-
-            runtimeCaching: [
-                {
-                    urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                    handler: 'cacheFirst',
-                    options: {
-                        cacheName: 'images',
-                        expiration: {
-                            maxAgeSeconds: 60 * 60 * 24 * 7 // 1 week
+    plugins: isProduction ?
+        commonPlugins.concat([
+            new MiniCssExtractPlugin({ filename: 'style.css' }),
+            new CopyWebpackPlugin([
+                { from: resolve(CONFIG.assetsDir) },
+                { from: "src/Server/", to: "api/" }
+            ]),
+            new SitemapPlugin('https://enserhof.github.io', [
+                "/aktivitaeten",
+                "/ueber-den-hof/expand-all",
+                "/lageplan"
+            ]),
+            new workboxPlugin.GenerateSW({
+                swDest: "sw.js",
+                
+                exclude: [
+                    /\.(?:png|jpg|jpeg|svg)$/,
+                    /^manifest\.json$/,
+                    /^api\//
+                ],
+                
+                runtimeCaching: [
+                    {
+                        urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
+                        handler: 'cacheFirst',
+                        options: {
+                            cacheName: 'images',
+                            expiration: {
+                                maxAgeSeconds: 60 * 60 * 24 * 7 // 1 week
+                            },
                         },
                     },
-                },
-                {
-                    urlPattern: /\/api\/(?:.*)/,
-                    handler: 'networkFirst',
-                    options: {
-                        cacheName: 'api-cache'
-                    },
-                },
-                {
-                    urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
-                    handler: 'cacheFirst',
-                    options: {
-                        cacheName: 'google-fonts',
-                        cacheableResponse: {
-                            statuses: [0, 200]
-                        },
-                        expiration: {
-                            maxEntries: 30
+                    {
+                        urlPattern: /\/api\/(?:.*)/,
+                        handler: 'networkFirst',
+                        options: {
+                            cacheName: 'api-cache'
                         },
                     },
-                }
-            ]
-        })
-    ]
+                    {
+                        urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
+                        handler: 'cacheFirst',
+                        options: {
+                            cacheName: 'google-fonts',
+                            cacheableResponse: {
+                                statuses: [0, 200]
+                            },
+                            expiration: {
+                                maxEntries: 30
+                            },
+                        },
+                    }
+                ]
+            })
+        ]) :
+        commonPlugins.concat([
+            new webpack.HotModuleReplacementPlugin(),
+            new webpack.NamedModulesPlugin()
+        ])
 };
+
+function resolve(filePath) {
+    return path.join(__dirname, filePath)
+}

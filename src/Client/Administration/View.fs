@@ -1,13 +1,13 @@
 module Administration.View
 
+open Fable.Core
+open Fable.FontAwesome
+open Fable.Helpers.Moment
+open Fable.React
+open Fable.React.Props
+open Fulma
 open System
 open Types
-open Fulma
-open Fulma.FontAwesome
-open Fable.Core
-open Fable.Helpers.Moment
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
 
 let root model dispatch =
   let timeInput fieldId time =
@@ -15,8 +15,8 @@ let root model dispatch =
       match time with
       | Valid value ->
         let momentTime = moment.Invoke value
-        momentTime.format "YYYY-MM-DDTHH:mm", Color.IsSuccess
-      | Invalid value -> value, Color.IsDanger
+        momentTime.format "YYYY-MM-DDTHH:mm", IsSuccess
+      | Invalid value -> value, IsDanger
 
     Field.div [ Field.HasAddons ]
       [ Control.p [ Control.HasIconLeft ]
@@ -30,30 +30,30 @@ let root model dispatch =
                     | _ -> Invalid evt.Value
                     |> Timestamp
                   dispatch (UpdateStallzeit (fieldId, value))) ]
-            Icon.faIcon [ Icon.IsLeft ]
-              [ Fa.icon Fa.I.Calendar ] ]
+            Icon.icon [ Icon.IsLeft ]
+              [ Fa.i [ Fa.Solid.Calendar ] [] ] ]
         Control.p []
           [ Button.button
-              [ Button.Color Color.IsDanger
+              [ Button.Color IsDanger
                 Button.OnClick (fun _evt -> dispatch (RemoveStallzeit fieldId)) ]
-              [ Icon.faIcon []
-                  [ Fa.icon Fa.I.Trash ] ] ] ]
+              [ Icon.icon []
+                  [ Fa.i [ Fa.Solid.Trash ] [] ] ] ] ]
 
   let infoTextInput fieldId text =
     Field.div [ Field.HasAddons ]
       [ Control.p [ Control.HasIconLeft ]
           [ Input.text
               [ Input.Value text
-                Input.Color (if String.IsNullOrWhiteSpace text then Color.IsDanger else Color.IsSuccess)
+                Input.Color (if String.IsNullOrWhiteSpace text then IsDanger else IsSuccess)
                 Input.OnChange (fun evt -> dispatch (UpdateStallzeit (fieldId, InfoText evt.Value))) ]
-            Icon.faIcon [ Icon.IsLeft ]
-              [ Fa.icon Fa.I.Info ] ]
+            Icon.icon [ Icon.IsLeft ]
+              [ Fa.i [ Fa.Solid.Info ] [] ] ]
         Control.p []
           [ Button.button
-              [ Button.Color Color.IsDanger
+              [ Button.Color IsDanger
                 Button.OnClick (fun _evt -> dispatch (RemoveStallzeit fieldId)) ]
-              [ Icon.faIcon []
-                  [ Fa.icon Fa.I.Trash ] ] ] ]
+              [ Icon.icon []
+                  [ Fa.i [ Fa.Solid.Trash ] [] ] ] ] ]
 
   let stallzeitInput stallzeit =
     match stallzeit.Value with
@@ -68,43 +68,43 @@ let root model dispatch =
               [ Input.text
                   [ Input.Placeholder "GitHub Access Token"
                     Input.OnChange (fun evt -> dispatch (UpdateGitHubAccessToken evt.Value)) ]
-                Icon.faIcon [ Icon.IsLeft ]
-                  [ Fa.icon Fa.I.Lock ] ] ]
+                Icon.icon [ Icon.IsLeft ]
+                  [ Fa.i [ Fa.Solid.Lock ] [] ] ] ]
         Field.div []
           [ Control.p []
               [ Button.button
-                  [ Button.Color Color.IsSuccess
+                  [ Button.Color IsSuccess
                     Button.OnClick (fun _evt -> dispatch Login) ]
                   [ str "Login" ] ] ] ]
     | Loading ->
-      [ Icon.faIcon [ ]
-          [ Fa.icon Fa.I.Spinner; Fa.spin ] ]
+      [ Icon.icon [ ]
+          [ Fa.i [ Fa.Solid.Spinner; Fa.Spin ] [] ] ]
     | Loaded _ ->
         [
           yield! List.map stallzeitInput model.LocalStallzeiten
           yield Field.div [ Field.IsGrouped ]
             [ Control.p []
                 [ Button.button
-                    [ Button.Color Color.IsSuccess
+                    [ Button.Color IsSuccess
                       Button.OnClick (fun _evt -> dispatch AddStallzeitTimestamp)
                       Button.Props [ Title "Zeitpunkt hinzufügen" ] ]
-                    [ Icon.faIcon [] [ Fa.icon Fa.I.CalendarPlusO ] ] ]
+                    [ Icon.icon [] [ Fa.i [ Fa.Solid.CalendarPlus ] [] ] ] ]
               Control.p []
                 [ Button.button
-                    [ Button.Color Color.IsSuccess
+                    [ Button.Color IsSuccess
                       Button.OnClick (fun _evt -> dispatch AddStallzeitInfoText)
                       Button.Props [ Title "Infotext hinzufügen" ] ]
-                    [ Icon.faIcon [] [ Fa.icon Fa.I.FileText ] ] ]
+                    [ Icon.icon [] [ Fa.i [ Fa.Solid.File ] [] ] ] ]
               Control.p []
                 [ Button.button
-                    [ Button.Color Color.IsSuccess
+                    [ Button.Color IsSuccess
                       Button.OnClick (fun _evt -> dispatch SaveStallzeiten) ]
-                    [ Icon.faIcon [] [ Fa.icon Fa.I.Save ] ] ] ]
+                    [ Icon.icon [] [ Fa.i [ Fa.Solid.Save ] [] ] ] ] ]
         ]
     | LoadError (LoadStallzeitenError.HttpError e) ->
-      [ Notification.notification [ Notification.Color Color.IsDanger ] [ str (sprintf "Fehler beim Laden der Stallzeiten.") ] ]
+      [ Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Laden der Stallzeiten.") ] ]
     | LoadError (ParseError e) ->
-      [ Notification.notification [ Notification.Color Color.IsDanger ] [ str (sprintf "Fehler beim Parsen der Stallzeiten.") ] ]
+      [ Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Parsen der Stallzeiten.") ] ]
 
   [ yield Heading.h1 [ Heading.Is3 ] [ str "Administration" ]
     yield Heading.h2 [ Heading.Is4 ] [ str "Stallzeiten aktualisieren" ]

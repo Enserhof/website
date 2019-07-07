@@ -1,31 +1,59 @@
 module Administration.Types
 
 open System
+open Thoth.Json
 
 module GitHubApi =
   // see https://developer.github.com/v3/repos/contents/#get-contents
   type GetContentResponse = {
-    url: string
-    content: string
-    sha: string
+    Url: string
+    Content: string
+    Sha: string
   }
+
+  module GetContentResponse =
+    let decoder: Decoder<_> =
+      Decode.object (fun get ->
+        {
+          Url = get.Required.Field "url" Decode.string
+          Content = get.Required.Field "content" Decode.string
+          Sha = get.Required.Field "sha" Decode.string
+        }
+      )
 
   // see https://developer.github.com/v3/repos/contents/#update-a-file
   type SetContentRequest = {
-    message: string
-    content: string
-    sha: string
-    branch: string
+    Message: string
+    Content: string
+    Sha: string
+    Branch: string
   }
+
+  module SetContentRequest =
+    let encode v =
+      Encode.object [
+        "message", Encode.string v.Message
+        "content", Encode.string v.Content
+        "sha", Encode.string v.Sha
+        "branch", Encode.string v.Branch
+      ]
 
   // see https://developer.github.com/v3/repos/contents/#response-2
   type SetContentResponse = {
-    content: GetContentResponse
+    Content: GetContentResponse
   }
+
+  module SetContentResponse =
+    let decoder: Decoder<_> =
+      Decode.object (fun get ->
+        {
+          Content = get.Required.Field "content" GetContentResponse.decoder
+        }
+      )
 
 type LoadStallzeitenError =
   | HttpError of exn
-  | ParseError of exn
+  | ParseError of string
 
 type SaveStallzeitenError =
   | HttpError of exn

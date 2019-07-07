@@ -1,9 +1,12 @@
-FSharp.Core
 Elmish.Toastr
+Fable.Browser.Navigator
 Fable.Core
-Fable.Elmish.React
 Fable.Elmish.Browser
 Fable.Elmish.Debugger
 Fable.Elmish.HMR
+Fable.Elmish.React
+Fable.FontAwesome.Free
+Fable.Promise
+FSharp.Core
 Fulma
-dotnet-fable
+Thoth.Fetch

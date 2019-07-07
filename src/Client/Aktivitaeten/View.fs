@@ -1,13 +1,13 @@
 module Aktivitaeten.View
 
+open Fable.Core.JsInterop
+open Fable.FontAwesome
+open Fable.Helpers.Moment
+open Fable.React
+open Fable.React.Props
+open Fulma
 open System
 open Types
-open Fable.Core.JsInterop
-open Fable.Helpers.Moment
-open Fable.Helpers.React
-open Fable.Helpers.React.Props
-open Fulma
-open Fulma.FontAwesome
 
 let root model =
   let formatStallzeit = function
@@ -20,8 +20,8 @@ let root model =
     match model.Stallzeiten with
     | Loading ->
       [ str "Nächste Stallzeit:"
-        Icon.faIcon [ ]
-          [ Fa.icon Fa.I.Spinner; Fa.spin ] ]
+        Icon.icon [ ]
+          [ Fa.i [ Fa.Solid.Spinner; Fa.Spin ] [] ] ]
     | Loaded times ->
         times
         |> List.filter (function

@@ -1,10 +1,11 @@
 module App.State
 
+open Browser.Dom
+open Browser.Types
 open Elmish
-open Elmish.Browser.Navigation
-open Elmish.Browser.UrlParser
+open Elmish.Navigation
+open Elmish.UrlParser
 open Fable.Core.JsInterop
-open Fable.Import.Browser
 open Global
 open Types
 
@@ -20,7 +21,7 @@ let pageParser: Parser<Page->Page,Page> =
 let urlUpdate (page: Option<Page>) model =
   let (model', cmd') =
     page
-    |> FSharp.Core.Option.map (fun page ->
+    |> Option.map (fun page ->
       match page with
       | UeberDenHof AllMenusExpanded ->
         let subModel, subCmd =
@@ -32,7 +33,7 @@ let urlUpdate (page: Option<Page>) model =
       | _ ->
         { model with CurrentPage = page }, Cmd.none
     )
-    |> FSharp.Core.Option.defaultWith (fun () ->
+    |> Option.defaultWith (fun () ->
       console.error("Error parsing url")
       model, Navigation.modifyUrl (toHash model.CurrentPage)
     )
