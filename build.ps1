@@ -6,10 +6,4 @@ function ExitOnError {
 
 yarn install --frozen-lockfile; ExitOnError
 dotnet restore; ExitOnError
-Push-Location .\src\Client
-try {
-    dotnet fable yarn-build; ExitOnError
-}
-finally {
-    Pop-Location
-}
+yarn webpack; ExitOnError

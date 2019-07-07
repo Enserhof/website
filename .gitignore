@@ -1,4 +1,5 @@
 .ionide/
+deploy/
 
 # Node
 node_modules/

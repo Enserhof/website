@@ -13,7 +13,7 @@ $buildOutputDir = ".\build-tmp"
 git worktree add $buildOutputDir $remoteName/master 2>&1; ExitOnError
 try {
 	Remove-Item $buildOutputDir -Exclude .git -Recurse -Force
-	Copy-Item .\public\** $buildOutputDir -Force -Recurse
+	Copy-Item .\deploy\** $buildOutputDir -Force -Recurse
 	$commitHash = git rev-parse HEAD; ExitOnError
 
 	Push-Location $buildOutputDir
