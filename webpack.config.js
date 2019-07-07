@@ -169,7 +169,7 @@ module.exports = {
                 exclude: [
                     /\.(?:png|jpg|jpeg|svg)$/,
                     /^manifest\.json$/,
-                    /^api\//
+                    /^api\b/
                 ],
                 
                 runtimeCaching: [
