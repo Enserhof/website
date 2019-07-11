@@ -53,9 +53,9 @@ let root model =
       [ str "Stallarbeit erledigen" ]
     Content.content []
       [ p []
-          [ str "Ihr habt ab nun die Möglichkeit, mit uns in den Stall zu gehen."
+          [ str "Ihr habt ab nun wie im letzten Jahr die Möglichkeit, mit uns in den Stall zu gehen."
             br []
-            str "Wir reinigen gemeinsam die Koppel und die Ställe, pfücken Futter für die Hasen, heben gemeinsam frische Eier ab und füttern die Esel, Kühe und Ponys mit Heu."
+            str "Wir reinigen gemeinsam die Koppel und die Ställe, pflücken Futter für die Hasen, heben gemeinsam frische Eier ab und füttern die Esel und Ponys mit Heu und Stroh."
             br []
             str "Das Stallgehen dauert ca. eine Stunde und findet bei jeder Witterung statt."
             br []
