@@ -12,9 +12,8 @@ $buildOutputDir = ".\build-tmp"
 
 git worktree add $buildOutputDir $remoteName/master 2>&1; ExitOnError
 try {
-	Remove-Item $buildOutputDir -Exclude .git -Recurse -Force
+	Remove-Item $buildOutputDir -Exclude .git,api -Recurse -Force
 	Copy-Item .\deploy\** $buildOutputDir -Force -Recurse
-	git checkout -- api/stallzeiten
 	$commitHash = git rev-parse HEAD; ExitOnError
 
 	Push-Location $buildOutputDir
