@@ -21,7 +21,7 @@ let rec update msg model =
     let cmd =
       Cmd.OfPromise.either
         (fun () ->
-          let url = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/src/Server/api/stallzeiten"
+          let url = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/api/stallzeiten?ref=master"
           let properties = [ Fetch.requestHeaders [ Fetch.Types.Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
           Fetch.fetchAs (url, GetContentResponse.decoder, properties)
         )
@@ -98,7 +98,7 @@ let rec update msg model =
         Message = "Update Stallzeiten"
         Content = Encode.toString 0 (encode stallzeiten') |> Browser.Dom.window.btoa
         Sha = remoteStallzeiten.Version
-        Branch = "dev"
+        Branch = "master"
       }
       let cmd =
         Cmd.OfPromise.either

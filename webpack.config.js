@@ -155,8 +155,7 @@ module.exports = {
         commonPlugins.concat([
             new MiniCssExtractPlugin({ filename: 'style.css' }),
             new CopyWebpackPlugin([
-                { from: resolve(CONFIG.assetsDir) },
-                { from: "src/Server/" }
+                { from: resolve(CONFIG.assetsDir) }
             ]),
             new SitemapPlugin('https://enserhof.github.io', [
                 "/aktivitaeten",
