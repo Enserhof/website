@@ -60,6 +60,29 @@ let root model dispatch =
     | Timestamp v -> timeInput stallzeit.Id v
     | InfoText v -> infoTextInput stallzeit.Id v
 
+  let stallzeitenForm =
+    [
+      yield! List.map stallzeitInput model.LocalStallzeiten
+      yield Field.div [ Field.IsGrouped ]
+        [ Control.p []
+            [ Button.button
+                [ Button.Color IsSuccess
+                  Button.OnClick (fun _evt -> dispatch AddStallzeitTimestamp)
+                  Button.Props [ Title "Zeitpunkt hinzufügen" ] ]
+                [ Icon.icon [] [ Fa.i [ Fa.Solid.CalendarPlus ] [] ] ] ]
+          Control.p []
+            [ Button.button
+                [ Button.Color IsSuccess
+                  Button.OnClick (fun _evt -> dispatch AddStallzeitInfoText)
+                  Button.Props [ Title "Infotext hinzufügen" ] ]
+                [ Icon.icon [] [ Fa.i [ Fa.Solid.File ] [] ] ] ]
+          Control.p []
+            [ Button.button
+                [ Button.Color IsSuccess
+                  Button.OnClick (fun _evt -> dispatch SaveStallzeiten) ]
+                [ Icon.icon [] [ Fa.i [ Fa.Solid.Save ] [] ] ] ] ]
+    ]
+
   let existingStallzeiten =
     match model.RemoteStallzeiten with
     | NotLoaded ->
@@ -80,31 +103,13 @@ let root model dispatch =
       [ Icon.icon [ ]
           [ Fa.i [ Fa.Solid.Spinner; Fa.Spin ] [] ] ]
     | Loaded _ ->
-        [
-          yield! List.map stallzeitInput model.LocalStallzeiten
-          yield Field.div [ Field.IsGrouped ]
-            [ Control.p []
-                [ Button.button
-                    [ Button.Color IsSuccess
-                      Button.OnClick (fun _evt -> dispatch AddStallzeitTimestamp)
-                      Button.Props [ Title "Zeitpunkt hinzufügen" ] ]
-                    [ Icon.icon [] [ Fa.i [ Fa.Solid.CalendarPlus ] [] ] ] ]
-              Control.p []
-                [ Button.button
-                    [ Button.Color IsSuccess
-                      Button.OnClick (fun _evt -> dispatch AddStallzeitInfoText)
-                      Button.Props [ Title "Infotext hinzufügen" ] ]
-                    [ Icon.icon [] [ Fa.i [ Fa.Solid.File ] [] ] ] ]
-              Control.p []
-                [ Button.button
-                    [ Button.Color IsSuccess
-                      Button.OnClick (fun _evt -> dispatch SaveStallzeiten) ]
-                    [ Icon.icon [] [ Fa.i [ Fa.Solid.Save ] [] ] ] ] ]
-        ]
+        stallzeitenForm
     | LoadError (LoadStallzeitenError.HttpError e) ->
-      [ Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Laden der Stallzeiten.") ] ]
+      [ yield Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Laden der Stallzeiten.") ]
+        yield! stallzeitenForm ]
     | LoadError (ParseError e) ->
-      [ Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Parsen der Stallzeiten.") ] ]
+      [ yield Notification.notification [ Notification.Color IsDanger ] [ str (sprintf "Fehler beim Parsen der Stallzeiten.") ]
+        yield! stallzeitenForm ]
 
   [ yield Heading.h1 [ Heading.Is3 ] [ str "Administration" ]
     yield Heading.h2 [ Heading.Is4 ] [ str "Stallzeiten aktualisieren" ]

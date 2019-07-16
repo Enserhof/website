@@ -15,15 +15,16 @@ let private tryGetGitHubAccessToken () =
 let private setGitHubAccessToken value =
   Browser.WebStorage.localStorage.setItem("GITHUB_ACCESS_TOKEN", value)
 
+let stallzeitenRemoteUrl = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/api/stallzeiten?ref=master"
+
 let rec update msg model =
   match msg with
   | LoadStallzeiten ->
     let cmd =
       Cmd.OfPromise.either
         (fun () ->
-          let url = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/api/stallzeiten?ref=master"
           let properties = [ Fetch.requestHeaders [ Fetch.Types.Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
-          Fetch.fetchAs (url, GetContentResponse.decoder, properties)
+          Fetch.fetchAs (stallzeitenRemoteUrl, GetContentResponse.decoder, properties)
         )
         ()
         LoadStallzeitenSuccess
@@ -52,10 +53,10 @@ let rec update msg model =
       update (LoadStallzeitenError (ParseError e)) model
   | LoadStallzeitenError ((LoadStallzeitenError.HttpError e) as error) ->
     Browser.Dom.console.error("Error while loading Stallzeiten: ", e)
-    { model with RemoteStallzeiten = LoadError error }, []
+    { model with RemoteStallzeiten = LoadError error; LocalStallzeiten = [] }, []
   | LoadStallzeitenError ((ParseError e) as error) ->
     Browser.Dom.console.error("Error while parsing Stallzeiten: ", e)
-    { model with RemoteStallzeiten = LoadError error }, []
+    { model with RemoteStallzeiten = LoadError error; LocalStallzeiten = [] }, []
   | UpdateGitHubAccessToken value ->
     { model with GitHubAccessToken = value }, []
   | Login ->
@@ -83,8 +84,7 @@ let rec update msg model =
       |> List.filter (fun t -> t.Id <> timeId)
     { model with LocalStallzeiten = stallzeiten' }, []
   | SaveStallzeiten ->
-    match model.RemoteStallzeiten with
-    | Loaded remoteStallzeiten ->
+    let save url version =
       let stallzeiten' =
         model.LocalStallzeiten
         |> List.choose (fun item ->
@@ -97,18 +97,23 @@ let rec update msg model =
       let body = {
         Message = "Update Stallzeiten"
         Content = Encode.toString 0 (encode stallzeiten') |> Browser.Dom.window.btoa
-        Sha = remoteStallzeiten.Version
+        Sha = version
         Branch = "master"
       }
       let cmd =
         Cmd.OfPromise.either
           (fun () ->
             let properties = [ Fetch.requestHeaders [ Fetch.Types.Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
-            Fetch.put (remoteStallzeiten.FileUrl, SetContentRequest.encode body, SetContentResponse.decoder, properties))
+            Fetch.put (url, SetContentRequest.encode body, SetContentResponse.decoder, properties))
           ()
           SaveStallzeitenSuccess
           (HttpError >> SaveStallzeitenError)
       model, cmd
+    match model.RemoteStallzeiten with
+    | Loaded remoteStallzeiten ->
+      save remoteStallzeiten.FileUrl (Some remoteStallzeiten.Version)
+    | LoadError _ ->
+      save stallzeitenRemoteUrl None
     | _ -> model, []
   | SaveStallzeitenSuccess response ->
     match model.RemoteStallzeiten with

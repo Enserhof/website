@@ -25,17 +25,20 @@ module GitHubApi =
   type SetContentRequest = {
     Message: string
     Content: string
-    Sha: string
+    Sha: string option
     Branch: string
   }
 
   module SetContentRequest =
     let encode v =
       Encode.object [
-        "message", Encode.string v.Message
-        "content", Encode.string v.Content
-        "sha", Encode.string v.Sha
-        "branch", Encode.string v.Branch
+        yield "message", Encode.string v.Message
+        yield "content", Encode.string v.Content
+        match v.Sha with
+        | Some sha ->
+          yield "sha", Encode.string sha
+        | None -> ()
+        yield "branch", Encode.string v.Branch
       ]
 
   // see https://developer.github.com/v3/repos/contents/#response-2
