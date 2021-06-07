@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-dotnet@v1
       - name: Build
         shell: pwsh
-        run: build.ps1
+        run: ./build.ps1
       - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
