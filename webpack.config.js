@@ -157,20 +157,20 @@ module.exports = {
             new CopyWebpackPlugin([
                 { from: resolve(CONFIG.assetsDir) }
             ]),
-            new SitemapPlugin('https://enserhof.github.io', [
+            new SitemapPlugin('https://enserhof.at', [
                 "/aktivitaeten",
                 "/ueber-den-hof/expand-all",
                 "/lageplan"
             ]),
             new workboxPlugin.GenerateSW({
                 swDest: "sw.js",
-                
+
                 exclude: [
                     /\.(?:png|jpg|jpeg|svg)$/,
                     /^manifest\.json$/,
                     /^api\b/
                 ],
-                
+
                 runtimeCaching: [
                     {
                         urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
