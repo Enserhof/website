@@ -61,7 +61,7 @@ open Elmish.HMR // Must be last Elmish.* open declaration (see https://elmish.gi
 
 // App
 Program.mkProgram init update root
-|> Program.toNavigable (parseHash pageParser) urlUpdate
+|> Program.toNavigable (parsePath pageParser) urlUpdate
 #if DEBUG
 |> Program.withDebugger
 |> Program.withConsoleTrace
