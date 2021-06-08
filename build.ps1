@@ -1,5 +1,5 @@
 function ExitOnError {
-    if ($LastExitCode -ne 0) { 
+    if ($LastExitCode -ne 0) {
         throw "Command returned non-zero exit code"
     }
 }
@@ -7,3 +7,4 @@ function ExitOnError {
 yarn install --frozen-lockfile; ExitOnError
 dotnet restore; ExitOnError
 yarn webpack; ExitOnError
+Copy-Item .\src\Server\api .\deploy -Recurse -Force
