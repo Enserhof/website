@@ -7,4 +7,4 @@ function ExitOnError {
 yarn install --frozen-lockfile; ExitOnError
 dotnet restore; ExitOnError
 yarn webpack; ExitOnError
-Copy-Item .\src\Server\api .\deploy -Recurse -Force
+Copy-Item .\src\Server\api,staticwebapp.config.json .\deploy -Recurse -Force
