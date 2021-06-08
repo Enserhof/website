@@ -16,7 +16,7 @@ importAll "../../sass/main.sass"
 let menuItem page currentPage =
   Navbar.Item.a
     [ Navbar.Item.IsActive (page = currentPage)
-      Navbar.Item.Props [ Href (toHash page) ] ]
+      Navbar.Item.Props [ Href (toUrl page) ] ]
     [ str (toString page) ]
 
 let menu pages currentPage =

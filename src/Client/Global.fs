@@ -24,19 +24,17 @@ let publicPages =
   allPages
   |> List.except [ Administration ]
 
-let toHash page =
+let toUrl page =
   match page with
-  | Aktivitaeten -> "#aktivitaeten"
-  | UeberDenHof OpenMenusExpanded -> "#ueber-den-hof"
-  | UeberDenHof AllMenusExpanded -> "#ueber-den-hof/expand-all"
-  | Lageplan -> "#lageplan"
-  | Administration -> "#administration"
-
-let toUrl = toHash >> fun s -> s.Replace("#", "/")
+  | Aktivitaeten -> "/aktivitaeten"
+  | UeberDenHof OpenMenusExpanded -> "/ueber-den-hof"
+  | UeberDenHof AllMenusExpanded -> "/ueber-den-hof/expand-all"
+  | Lageplan -> "/lageplan"
+  | Administration -> "/administration"
 
 let toString = function
   | Aktivitaeten -> "Aktivitäten"
-  | UeberDenHof OpenMenusExpanded -> "Über den Hof"
+  | UeberDenHof OpenMenusExpanded
   | UeberDenHof AllMenusExpanded -> "Über den Hof"
   | Lageplan -> "Lageplan"
   | Administration -> "Administration"
