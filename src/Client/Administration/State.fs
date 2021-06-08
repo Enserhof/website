@@ -15,7 +15,7 @@ let private tryGetGitHubAccessToken () =
 let private setGitHubAccessToken value =
   Browser.WebStorage.localStorage.setItem("GITHUB_ACCESS_TOKEN", value)
 
-let stallzeitenRemoteUrl = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/src/Server/api/stallzeiten?ref=dev"
+let stallzeitenRemoteUrl = "https://api.github.com/repos/enserhof/enserhof.github.io/contents/src/Server/api/stallzeiten?ref=main"
 
 let rec update msg model =
   match msg with
@@ -98,7 +98,7 @@ let rec update msg model =
         Message = "Update Stallzeiten"
         Content = Encode.toString 0 (encode stallzeiten') |> Browser.Dom.window.btoa
         Sha = version
-        Branch = "dev"
+        Branch = "main"
       }
       let cmd =
         Cmd.OfPromise.either
