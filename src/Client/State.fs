@@ -37,7 +37,7 @@ let urlUpdate (page: Option<Page>) model =
       console.error("Error parsing url")
       model, Navigation.modifyUrl (toHash model.CurrentPage)
     )
-  
+
   window.document.title <- toString model'.CurrentPage |> sprintf "%s | Enserhof z'Ehrndorf"
 
   do
@@ -60,8 +60,6 @@ let urlUpdate (page: Option<Page>) model =
         document.head.appendChild elem :?> Element
       | e -> e
     elem.setAttribute("href", sprintf "https://enserhof.github.io%s" (toUrl model'.CurrentPage))
-
-  GTag.setPage GTag.trackingId (toUrl model'.CurrentPage)
 
   model', cmd'
 

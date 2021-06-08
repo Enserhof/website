@@ -5,7 +5,6 @@
   <ItemGroup>
     <Compile Include="..\..\paket-files\Prolucid\fable-import-momentjs\Fable.Import.Moment.fs" />
     <Compile Include="..\..\paket-files\Prolucid\fable-import-momentjs\Fable.Helpers.Moment.fs" />
-    <Compile Include="GTag.fs" />
     <Compile Include="Global.fs" />
     <Compile Include="UeberDenHof/Types.fs" />
     <Compile Include="UeberDenHof/State.fs" />
