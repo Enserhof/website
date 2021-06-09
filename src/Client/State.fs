@@ -12,8 +12,7 @@ open Types
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
     map Aktivitaeten (s "aktivitaeten")
-    map (fun _ -> UeberDenHof AllMenusExpanded) (s "ueber-den-hof" <?> stringParam "expand-all")
-    map (UeberDenHof OpenMenusExpanded) (s "ueber-den-hof")
+    map (Option.map (fun _ -> UeberDenHof AllMenusExpanded) >> Option.defaultValue (UeberDenHof OpenMenusExpanded)) (s "ueber-den-hof" <?> stringParam "expand-all")
     map Lageplan (s "lageplan")
     map Administration (s "administration")
   ]
