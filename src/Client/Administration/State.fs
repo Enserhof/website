@@ -104,7 +104,7 @@ let rec update msg model =
         Cmd.OfPromise.either
           (fun () ->
             let properties = [ Fetch.requestHeaders [ Fetch.Types.Authorization (sprintf "Bearer %s" model.GitHubAccessToken) ] ]
-            Fetch.put (url, SetContentRequest.encode body, SetContentResponse.decoder, properties))
+            Fetch.put (url, data = SetContentRequest.encode body, decoder = SetContentResponse.decoder, properties = properties))
           ()
           SaveStallzeitenSuccess
           (HttpError >> SaveStallzeitenError)

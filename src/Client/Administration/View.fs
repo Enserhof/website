@@ -2,7 +2,7 @@ module Administration.View
 
 open Fable.Core
 open Fable.FontAwesome
-open Fable.Helpers.Moment
+open Fable.MomentJs
 open Fable.React
 open Fable.React.Props
 open Fulma

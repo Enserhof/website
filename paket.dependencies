@@ -10,9 +10,8 @@ nuget Fable.Elmish.Debugger
 nuget Fable.Elmish.HMR
 nuget Fable.Elmish.React
 nuget Fable.FontAwesome.Free
+nuget Fable.MomentJs
 nuget Fable.Promise
 nuget FSharp.Core
 nuget Fulma
 nuget Thoth.Fetch
-github Prolucid/fable-import-momentjs Fable.Helpers.Moment.fs
-github Prolucid/fable-import-momentjs Fable.Import.Moment.fs

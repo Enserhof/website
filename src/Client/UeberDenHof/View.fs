@@ -11,8 +11,8 @@ let root model dispatch =
   let h3 text =
     Heading.h3 [ Heading.Is5; Heading.Props [ Style [ LineHeight "36px" ] ] ] [ str text ]
 
-  let image src =
-    Image.image [ ] [ img [ Src src ] ]
+  let image importedImage =
+    Image.image [ ] [ img [ Src importedImage?``default`` ] ]
 
   let openMenuButton menuItem =
     let (cmd, stateClass) =

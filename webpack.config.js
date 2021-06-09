@@ -33,14 +33,14 @@ var CONFIG = {
                 // This adds polyfills when needed. Requires core-js dependency.
                 // See https://babeljs.io/docs/en/babel-preset-env#usebuiltins
                 "useBuiltIns": "entry",
-                "corejs": "3.1.4",
+                "corejs": "3.14.0"
             }]
         ],
     }
 }
 
 // If we're running the webpack-dev-server, assume we're in development mode
-var isProduction = !process.argv.find(v => v.indexOf('webpack-dev-server') !== -1);
+var isProduction = !process.argv.find(v => v.indexOf('serve') !== -1);
 console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
 
 // The HtmlWebpackPlugin allows us to use a template for the index.html page
@@ -81,22 +81,8 @@ module.exports = {
                 }
             }
         },
+        moduleIds: isProduction ? 'deterministic' : 'named'
     },
-    // Besides the HtmlPlugin, we use the following plugins:
-    // PRODUCTION
-    //      - MiniCssExtractPlugin: Extracts CSS from bundle to a different file
-    //          To minify CSS, see https://github.com/webpack-contrib/mini-css-extract-plugin#minimizing-for-production
-    //      - CopyWebpackPlugin: Copies static assets to output directory
-    // DEVELOPMENT
-    //      - HotModuleReplacementPlugin: Enables hot reloading when code changes without refreshing
-    plugins: isProduction ?
-        commonPlugins.concat([
-            new MiniCssExtractPlugin({ filename: 'style.css' }),
-            new CopyWebpackPlugin([{ from: resolve(CONFIG.assetsDir) }]),
-        ])
-        : commonPlugins.concat([
-            new webpack.HotModuleReplacementPlugin(),
-        ]),
     resolve: {
         // See https://github.com/fable-compiler/Fable/issues/1490
         symlinks: false
@@ -154,14 +140,12 @@ module.exports = {
     plugins: isProduction ?
         commonPlugins.concat([
             new MiniCssExtractPlugin({ filename: 'style.css' }),
-            new CopyWebpackPlugin([
-                { from: resolve(CONFIG.assetsDir) }
-            ]),
-            new SitemapPlugin('https://enserhof.at', [
+            new CopyWebpackPlugin({patterns: [{ from: resolve(CONFIG.assetsDir) }]}),
+            new SitemapPlugin({base: 'https://enserhof.at', paths: [
                 "/aktivitaeten",
                 "/ueber-den-hof/expand-all",
                 "/lageplan"
-            ]),
+            ]}),
             new workboxPlugin.GenerateSW({
                 swDest: "sw.js",
 
@@ -174,7 +158,7 @@ module.exports = {
                 runtimeCaching: [
                     {
                         urlPattern: /\.(?:png|jpg|jpeg|svg)$/,
-                        handler: 'cacheFirst',
+                        handler: 'CacheFirst',
                         options: {
                             cacheName: 'images',
                             expiration: {
@@ -184,14 +168,14 @@ module.exports = {
                     },
                     {
                         urlPattern: /\/api\/(?:.*)/,
-                        handler: 'networkFirst',
+                        handler: 'NetworkFirst',
                         options: {
                             cacheName: 'api-cache'
                         },
                     },
                     {
                         urlPattern: new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
-                        handler: 'cacheFirst',
+                        handler: 'CacheFirst',
                         options: {
                             cacheName: 'google-fonts',
                             cacheableResponse: {
@@ -206,8 +190,7 @@ module.exports = {
             })
         ]) :
         commonPlugins.concat([
-            new webpack.HotModuleReplacementPlugin(),
-            new webpack.NamedModulesPlugin()
+            new webpack.HotModuleReplacementPlugin()
         ])
 };
 

@@ -1,7 +1,2 @@
-Push-Location .\src\Client
-try {
-    dotnet fable yarn-start
-}
-finally {
-    Pop-Location
-}
+dotnet tool restore
+dotnet fable watch .\src\Client

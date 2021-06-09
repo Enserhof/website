@@ -1,5 +1,6 @@
 .ionide/
 deploy/
+*.fs.js
 
 # Node
 node_modules/

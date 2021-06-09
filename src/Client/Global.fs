@@ -1,6 +1,8 @@
 module Global
 
-Fable.Helpers.Moment.moment.locale "de" |> ignore
+open Fable.MomentJs
+
+moment.locale "de" |> ignore
 
 type UeberDenHofMenuState =
   | OpenMenusExpanded
