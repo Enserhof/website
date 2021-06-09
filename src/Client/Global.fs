@@ -14,17 +14,12 @@ type Page =
   | Lageplan
   | Administration
 
-let allPages =
+let publicPages =
   [
     Aktivitaeten
     UeberDenHof OpenMenusExpanded
     Lageplan
-    Administration
   ]
-
-let publicPages =
-  allPages
-  |> List.except [ Administration ]
 
 let toUrl page =
   match page with

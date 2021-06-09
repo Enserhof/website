@@ -32,10 +32,9 @@ let root model dispatch =
     | Administration -> Administration.View.root model.Administration (AdministrationMsg >> dispatch)
 
   let hasGitHubAccessToken = model.Administration.GitHubAccessToken <> ""
-  let currentPageIsNotPublic = publicPages |> List.contains model.CurrentPage |> not
   let pages =
-    if hasGitHubAccessToken || currentPageIsNotPublic
-    then allPages
+    if model.CurrentPage = Administration || hasGitHubAccessToken then
+        publicPages @ [ Administration ]
     else publicPages
 
   div []
