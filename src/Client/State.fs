@@ -5,15 +5,15 @@ open Browser.Types
 open Elmish
 open Elmish.Navigation
 open Elmish.UrlParser
-open Fable.Core.JsInterop
+open Fable.Core
 open Global
 open Types
 
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
     map Aktivitaeten (s "aktivitaeten")
+    map (fun _ -> UeberDenHof AllMenusExpanded) (s "ueber-den-hof" <?> stringParam "expand-all")
     map (UeberDenHof OpenMenusExpanded) (s "ueber-den-hof")
-    map (UeberDenHof AllMenusExpanded) (s "ueber-den-hof" </> s "expand-all")
     map Lageplan (s "lageplan")
     map Administration (s "administration")
   ]
@@ -62,8 +62,23 @@ let init result =
     ]
   model', cmd'
 
+// Navigation.newUrl doesn't work, because constructing the custom event yields a JS error
+module Navigation' =
+    [<Emit("new CustomEvent($0)")>]
+    let private createCustomEvent name = jsNative
+
+    let newUrl url =
+        [
+            fun _ ->
+                history.pushState((), "", url)
+                let ev = createCustomEvent "NavigatedEvent"
+                window.dispatchEvent(ev) |> ignore
+        ]
+
 let update msg model =
   match msg with
+  | ShowPage page ->
+    model, Navigation'.newUrl (toUrl page)
   | AktivitaetenMsg msg' ->
     let subModel, subCmd = Aktivitaeten.State.update msg' model.Aktivitaeten
     { model with Aktivitaeten = subModel }, Cmd.map AktivitaetenMsg subCmd

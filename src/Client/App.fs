@@ -13,17 +13,17 @@ open Fulma
 
 importAll "../../sass/main.sass"
 
-let menuItem page currentPage =
-  Navbar.Item.a
-    [ Navbar.Item.IsActive (page = currentPage)
-      Navbar.Item.Props [ Href (toUrl page) ] ]
-    [ str (toString page) ]
-
-let menu pages currentPage =
-  Navbar.navbar [ Navbar.Color IsLight ]
-    [ for page in pages -> menuItem page currentPage ]
-
 let root model dispatch =
+  let menuItem page currentPage =
+    Navbar.Item.a
+      [ Navbar.Item.IsActive (page = currentPage)
+        Navbar.Item.Props [ Href (toUrl page); OnClick (fun e -> e.preventDefault(); dispatch (ShowPage page)) ] ]
+      [ str (toString page) ]
+
+  let menu pages currentPage =
+    Navbar.navbar [ Navbar.Color IsLight ]
+      [ for page in pages -> menuItem page currentPage ]
+
   let pageHtml =
     function
     | Aktivitaeten -> Aktivitaeten.View.root model.Aktivitaeten

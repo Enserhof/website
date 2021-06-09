@@ -3,6 +3,7 @@ module App.Types
 open Global
 
 type Message =
+  | ShowPage of Page
   | AktivitaetenMsg of Aktivitaeten.Types.Msg
   | UeberDenHofMsg of UeberDenHof.Types.Msg
   | AdministrationMsg of Administration.Types.Msg
