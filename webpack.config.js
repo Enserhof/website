@@ -144,7 +144,7 @@ module.exports = {
             new CopyWebpackPlugin({patterns: [{ from: resolve(CONFIG.assetsDir) }]}),
             new SitemapPlugin({base: 'https://enserhof.at', paths: [
                 "/aktivitaeten",
-                "/ueber-den-hof?expand-all",
+                "/ueber-den-hof?expand-all=1",
                 "/lageplan"
             ]}),
             new workboxPlugin.GenerateSW({

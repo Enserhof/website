@@ -25,7 +25,7 @@ let toUrl page =
   match page with
   | Aktivitaeten -> "/aktivitaeten"
   | UeberDenHof OpenMenusExpanded -> "/ueber-den-hof"
-  | UeberDenHof AllMenusExpanded -> "/ueber-den-hof?expand-all"
+  | UeberDenHof AllMenusExpanded -> "/ueber-den-hof?expand-all=1"
   | Lageplan -> "/lageplan"
   | Administration -> "/administration"
 
