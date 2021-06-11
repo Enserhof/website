@@ -9,28 +9,24 @@ type UeberDenHofMenuState =
   | AllMenusExpanded
 
 type Page =
-  | Aktivitaeten
+  | Startseite
+  | Angebote
   | UeberDenHof of UeberDenHofMenuState
   | Lageplan
   | Administration
 
-let publicPages =
-  [
-    Aktivitaeten
-    UeberDenHof OpenMenusExpanded
-    Lageplan
-  ]
-
 let toUrl page =
   match page with
-  | Aktivitaeten -> "/aktivitaeten"
+  | Startseite -> "/"
+  | Angebote -> "/angebote"
   | UeberDenHof OpenMenusExpanded -> "/ueber-den-hof"
   | UeberDenHof AllMenusExpanded -> "/ueber-den-hof?expand-all=1"
   | Lageplan -> "/lageplan"
   | Administration -> "/administration"
 
 let toString = function
-  | Aktivitaeten -> "Aktivitäten"
+  | Startseite -> "Startseite"
+  | Angebote -> "Angebote"
   | UeberDenHof OpenMenusExpanded
   | UeberDenHof AllMenusExpanded -> "Über den Hof"
   | Lageplan -> "Lageplan"

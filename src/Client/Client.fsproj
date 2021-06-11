@@ -4,12 +4,13 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Global.fs" />
+    <Compile Include="Startseite/View.fs" />
     <Compile Include="UeberDenHof/Types.fs" />
     <Compile Include="UeberDenHof/State.fs" />
     <Compile Include="UeberDenHof/View.fs" />
-    <Compile Include="Aktivitaeten/Types.fs" />
-    <Compile Include="Aktivitaeten/State.fs" />
-    <Compile Include="Aktivitaeten/View.fs" />
+    <Compile Include="Angebote/Types.fs" />
+    <Compile Include="Angebote/State.fs" />
+    <Compile Include="Angebote/View.fs" />
     <Compile Include="Lageplan/View.fs" />
     <Compile Include="Administration/Types.fs" />
     <Compile Include="Administration/State.fs" />
