@@ -72,6 +72,7 @@ module.exports = {
         splitChunks: {
             chunks: 'all'
         },
+        moduleIds: isProduction ? 'deterministic' : 'named'
     },
     resolve: {
         // See https://github.com/fable-compiler/Fable/issues/1490
