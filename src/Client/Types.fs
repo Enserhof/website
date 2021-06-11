@@ -4,13 +4,13 @@ open Global
 
 type Message =
   | ShowPage of Page
-  | AktivitaetenMsg of Aktivitaeten.Types.Msg
+  | AngeboteMsg of Angebote.Types.Msg
   | UeberDenHofMsg of UeberDenHof.Types.Msg
   | AdministrationMsg of Administration.Types.Msg
 
 type Model = {
   CurrentPage: Page
-  Aktivitaeten: Aktivitaeten.Types.Model
+  Angebote: Angebote.Types.Model
   UeberDenHof: UeberDenHof.Types.Model
   Administration: Administration.Types.Model
 }

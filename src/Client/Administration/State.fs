@@ -33,7 +33,7 @@ let rec update msg model =
   | LoadStallzeitenSuccess file ->
     file.Content
     |> Browser.Dom.window.atob
-    |> Decode.fromString (Decode.list Aktivitaeten.Types.Stallzeit.decoder)
+    |> Decode.fromString (Decode.list Angebote.Types.Stallzeit.decoder)
     |> function
     | Ok stallzeiten ->
       let model' =
@@ -44,8 +44,8 @@ let rec update msg model =
               |> List.map (fun timestamp ->
                 let stallzeitValue =
                   match timestamp with
-                  | Aktivitaeten.Types.Timestamp v -> Timestamp (Valid v)
-                  | Aktivitaeten.Types.InfoText v -> InfoText v
+                  | Angebote.Types.Timestamp v -> Timestamp (Valid v)
+                  | Angebote.Types.InfoText v -> InfoText v
                 { Id = Guid.NewGuid().ToString(); Value = stallzeitValue })
         }
       model', []
@@ -89,11 +89,11 @@ let rec update msg model =
         model.LocalStallzeiten
         |> List.choose (fun item ->
           match item.Value with
-          | Timestamp (Valid value) -> Some (Aktivitaeten.Types.Timestamp value)
+          | Timestamp (Valid value) -> Some (Angebote.Types.Timestamp value)
           | Timestamp (Invalid _) -> None
-          | InfoText v -> Some (Aktivitaeten.Types.InfoText v)
+          | InfoText v -> Some (Angebote.Types.InfoText v)
         )
-      let encode = List.map Aktivitaeten.Types.Stallzeit.encode >> Encode.list
+      let encode = List.map Angebote.Types.Stallzeit.encode >> Encode.list
       let body = {
         Message = "Update Stallzeiten"
         Content = Encode.toString 0 (encode stallzeiten') |> Browser.Dom.window.btoa

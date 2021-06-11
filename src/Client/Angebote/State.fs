@@ -1,4 +1,4 @@
-module Aktivitaeten.State
+module Angebote.State
 
 open Elmish
 // open Thoth.Fetch

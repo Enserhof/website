@@ -1,7 +1,6 @@
 module App.State
 
 open Browser.Dom
-open Browser.Types
 open Elmish
 open Elmish.Navigation
 open Elmish.UrlParser
@@ -11,7 +10,8 @@ open Types
 
 let pageParser: Parser<Page->Page,Page> =
   oneOf [
-    map Aktivitaeten (s "aktivitaeten")
+    map Startseite top
+    map Angebote (s "angebote")
     map (Option.map (fun _ -> UeberDenHof AllMenusExpanded) >> Option.defaultValue (UeberDenHof OpenMenusExpanded)) (s "ueber-den-hof" <?> stringParam "expand-all")
     map Lageplan (s "lageplan")
     map Administration (s "administration")
@@ -42,12 +42,12 @@ let urlUpdate (page: Option<Page>) model =
   model', cmd'
 
 let init result =
-  let aktivitaeten, aktivitaetenCmd = Aktivitaeten.State.init
+  let angebote, angeboteCmd = Angebote.State.init
   let ueberDenHof, ueberDenHofCmd = UeberDenHof.State.init
   let administration, administrationCmd = Administration.State.init
   let model = {
-    CurrentPage = Aktivitaeten
-    Aktivitaeten = aktivitaeten
+    CurrentPage = Angebote
+    Angebote = angebote
     UeberDenHof = ueberDenHof
     Administration = administration
   }
@@ -55,7 +55,7 @@ let init result =
   let cmd' =
     Cmd.batch [
       cmd
-      Cmd.map AktivitaetenMsg aktivitaetenCmd
+      Cmd.map AngeboteMsg angeboteCmd
       Cmd.map UeberDenHofMsg ueberDenHofCmd
       Cmd.map AdministrationMsg administrationCmd
     ]
@@ -78,9 +78,9 @@ let update msg model =
   match msg with
   | ShowPage page ->
     model, Navigation'.newUrl (toUrl page)
-  | AktivitaetenMsg msg' ->
-    let subModel, subCmd = Aktivitaeten.State.update msg' model.Aktivitaeten
-    { model with Aktivitaeten = subModel }, Cmd.map AktivitaetenMsg subCmd
+  | AngeboteMsg msg' ->
+    let subModel, subCmd = Angebote.State.update msg' model.Angebote
+    { model with Angebote = subModel }, Cmd.map AngeboteMsg subCmd
   | UeberDenHofMsg msg' ->
     let subModel, subCmd = UeberDenHof.State.update msg' model.UeberDenHof
     { model with UeberDenHof = subModel }, Cmd.map UeberDenHofMsg subCmd
