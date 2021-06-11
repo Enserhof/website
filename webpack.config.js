@@ -81,6 +81,7 @@ module.exports = {
                 }
             }
         },
+        runtimeChunk: 'single',
         moduleIds: isProduction ? 'deterministic' : 'named'
     },
     resolve: {
