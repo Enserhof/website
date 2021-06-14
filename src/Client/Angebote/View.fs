@@ -124,7 +124,7 @@ let root model =
         ]
         p [] [
             str " Der ruhige und langsame Gang der Esel wirkt besonders entspannend und macht eure Wanderung zu einer Wohltat für unruhige Geister."
-            str " Die Ziegen sind dafür umso lebhafter und sorgen mit ihern Kletterkünsten und ihrer neugierigen Art immer für ein Schmunzeln."
+            str " Die Ziegen sind dafür umso lebhafter und sorgen mit ihren Kletterkünsten und ihrer neugierigen Art immer für ein Schmunzeln."
         ]
         p [] [
             str " Bevor es losgeht, werden die Esel geputzt und ihre Hufe gereinigt. Die Ziegen sind sofort startklar."
