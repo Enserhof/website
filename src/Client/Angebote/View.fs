@@ -136,6 +136,7 @@ let root model =
         p [] [
             b [] [ str "Kosten: "]
             ul [] [
+                li [] [ str "Spritztour (bis 2 Stunden): 20 €" ]
                 li [] [ str "Halbtageswanderung (bis 4 Stunden): 30 €" ]
                 li [] [ str "Ganztageswanderung (nur mit den Eseln, bis 8 Stunden): 50 €" ]
             ]
