@@ -81,6 +81,7 @@ module.exports = {
                 }
             }
         },
+        runtimeChunk: 'single',
         moduleIds: isProduction ? 'deterministic' : 'named'
     },
     resolve: {
@@ -143,7 +144,8 @@ module.exports = {
             new MiniCssExtractPlugin({ filename: 'style.css' }),
             new CopyWebpackPlugin({patterns: [{ from: resolve(CONFIG.assetsDir) }]}),
             new SitemapPlugin({base: 'https://enserhof.at', paths: [
-                "/aktivitaeten",
+                "/",
+                "/angebote",
                 "/ueber-den-hof?expand-all=1",
                 "/lageplan"
             ]}),

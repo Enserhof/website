@@ -26,15 +26,23 @@ let root model dispatch =
 
   let pageHtml =
     function
-    | Aktivitaeten -> Aktivitaeten.View.root model.Aktivitaeten
+    | Startseite -> Startseite.View.root
+    | Angebote -> Angebote.View.root model.Angebote
     | UeberDenHof _menuState -> UeberDenHof.View.root model.UeberDenHof (UeberDenHofMsg >> dispatch)
     | Lageplan -> Lageplan.View.root
     | Administration -> Administration.View.root model.Administration (AdministrationMsg >> dispatch)
 
   let hasGitHubAccessToken = model.Administration.GitHubAccessToken <> ""
   let pages =
+    let publicPages = [
+      Startseite
+      Angebote
+      UeberDenHof OpenMenusExpanded
+      Lageplan
+    ]
+
     if model.CurrentPage = Administration || hasGitHubAccessToken then
-        publicPages @ [ Administration ]
+      publicPages @ [ Administration ]
     else publicPages
 
   div []

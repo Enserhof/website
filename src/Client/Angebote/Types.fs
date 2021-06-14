@@ -1,4 +1,4 @@
-module Aktivitaeten.Types
+module Angebote.Types
 
 open System
 open Thoth.Json

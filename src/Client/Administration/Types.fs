@@ -77,7 +77,7 @@ type LocalStallzeit = {
 type LoadedStallzeiten = {
   Version: string
   FileUrl: string
-  Stallzeiten: Aktivitaeten.Types.Stallzeit list
+  Stallzeiten: Angebote.Types.Stallzeit list
 }
 
 type Stallzeiten =
