@@ -80,7 +80,7 @@ let root model =
         str " Wasser und Saft sowie Geschirr für den Kuchen werden von uns zur Verfügung gestellt."
       ]
       p [] [
-        str "Die Anwesenheit eines Elternteils von dir ist erforderlich."
+        str "Die Anwesenheit von zumindest einer Begleitperson von dir ist erforderlich."
         str " Du und deine Freunde benötigen festes Schuhwerk sowie witterungsentsprechende Kleidung."
       ]
       p [] [
