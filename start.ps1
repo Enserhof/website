@@ -1,2 +1,3 @@
 dotnet tool restore
-dotnet fable watch .\src\Client
+yarn install --frozen-lockfile
+dotnet fable watch --cwd .\src\Client\ --run yarn webpack serve

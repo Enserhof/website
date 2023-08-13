@@ -22,9 +22,14 @@ jobs:
         uses: actions/setup-node@v2
       - name: Use dotnet
         uses: actions/setup-dotnet@v1
-      - name: Build
-        shell: pwsh
-        run: ./build.ps1
+      - name: Restore .NET tools
+        run: dotnet tool restore
+      - name: Restore NPM packages
+        run: yarn install --frozen-lockfile
+      - name: Build app
+        run: |
+          dotnet fable --cwd ./src/Client/ --run yarn webpack
+          cp -R ./src/Server/api staticwebapp.config.json ./deploy/
       - name: Deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
