@@ -18,7 +18,7 @@ var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
     // See https://github.com/jantimon/html-webpack-plugin
     indexHtmlTemplate: "./src/index.html",
-    fsharpEntry: "./src/Client/Client.fsproj",
+    fsharpEntry: "./src/Client/App.fs.js",
     cssEntry: "./sass/main.sass",
     outputDir: "./deploy",
     assetsDir: "./public",
@@ -65,7 +65,8 @@ module.exports = {
     // to prevent browser caching if code changes
     output: {
         path: resolve(CONFIG.outputDir),
-        filename: isProduction ? '[name].[hash].js' : '[name].js'
+        filename: isProduction ? '[name].[hash].js' : '[name].js',
+        hashFunction: 'xxhash64'
     },
     mode: isProduction ? "production" : "development",
     devtool: isProduction ? "source-map" : "eval-source-map",
@@ -88,12 +89,19 @@ module.exports = {
         symlinks: false
     },
     devServer: {
-        publicPath: "/",
-        contentBase: [ resolve(CONFIG.assetsDir), resolve("./src/Server") ],
+        static: [
+            {
+              directory: resolve(CONFIG.assetsDir),
+              publicPath: "/",
+            },
+            {
+              directory: resolve("./src/Server"),
+              publicPath: "/",
+            },
+        ],
         port: CONFIG.devServerPort,
         proxy: CONFIG.devServerProxy,
         hot: true,
-        inline: true,
         historyApiFallback: true
     },
     // - fable-loader: transforms F# into JS

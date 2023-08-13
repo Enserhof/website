@@ -13,7 +13,7 @@ type Stallzeit =
 module Stallzeit =
     let decoder: Decoder<_> =
         Decode.oneOf [
-            Decode.field "timestamp" Decode.datetime |> Decode.map Timestamp
+            Decode.field "timestamp" Decode.datetimeUtc |> Decode.map Timestamp
             Decode.field "infotext" Decode.string |> Decode.map InfoText
         ]
 
