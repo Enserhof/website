@@ -27,10 +27,6 @@ let root model =
         |> List.filter (function
           | Timestamp v -> v.Date >= DateTime.Today
           | InfoText _ -> true)
-        |> List.sortBy (function
-          | Timestamp v -> v.Ticks
-          | InfoText _ -> DateTime.MinValue.Ticks - 1L // Infos come first
-        )
         |> function
         | [] ->
           [ str "Nächste Stallzeit: "
