@@ -4,45 +4,36 @@
 // In most cases, you'll only need to edit the CONFIG object (after dependencies)
 // See below if you need better fine-tuning of Webpack options
 
-// Dependencies. Also required: core-js, fable-loader, fable-compiler, @babel/core,
-// @babel/preset-env, babel-loader, sass, sass-loader, css-loader, style-loader, file-loader
-var path = require("path");
-var webpack = require("webpack");
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var MiniCssExtractPlugin = require("mini-css-extract-plugin");
+// Dependencies. Also required: sass, sass-loader, css-loader, style-loader, file-loader, resolve-url-loader
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const workboxPlugin = require('workbox-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
 var CONFIG = {
     // The tags to include the generated JS and CSS will be automatically injected in the HTML template
     // See https://github.com/jantimon/html-webpack-plugin
-    indexHtmlTemplate: "./src/index.html",
-    fsharpEntry: "./src/Client/App.fs.js",
-    cssEntry: "./sass/main.sass",
-    outputDir: "./deploy",
-    assetsDir: "./public",
+    indexHtmlTemplate: './src/index.html',
+    fsharpEntry: './src/Client/App.fs.js',
+    cssEntry: './sass/main.sass',
+    outputDir: './deploy',
+    assetsDir: './public',
+    publicPath: '/', // Where the bundled files are accessible relative to server root
     devServerPort: 8080,
-    // Use babel-preset-env to generate JS compatible with most-used browsers.
-    // More info at https://babeljs.io/docs/en/next/babel-preset-env.html
-    babel: {
-        presets: [
-            ["@babel/preset-env", {
-                "targets": "> 0.25%, not dead",
-                "modules": false,
-                // This adds polyfills when needed. Requires core-js dependency.
-                // See https://babeljs.io/docs/en/babel-preset-env#usebuiltins
-                "useBuiltIns": "entry",
-                "corejs": "3.14.0"
-            }]
-        ],
-    }
+    // When using webpack-dev-server, you may need to redirect some calls
+    // to a external API server. See https://webpack.js.org/configuration/dev-server/#devserver-proxy
+    devServerProxy: undefined,
 }
 
-// If we're running the webpack-dev-server, assume we're in development mode
-var isProduction = !process.argv.find(v => v.indexOf('serve') !== -1);
-console.log("Bundling for " + (isProduction ? "production" : "development") + "...");
+// If we're running webpack serve, assume we're in development
+var isProduction = !hasArg(/serve/);
+var outputWebpackStatsAsJson = hasArg('--json');
 
+if (!outputWebpackStatsAsJson) {
+    console.log('Bundling CLIENT for ' + (isProduction ? 'production' : 'development') + '...');
+}
 // The HtmlWebpackPlugin allows us to use a template for the index.html page
 // and automatically injects <script> or <link> tags for generated bundles.
 var commonPlugins = [
@@ -64,60 +55,48 @@ module.exports = {
     // Add a hash to the output file name in production
     // to prevent browser caching if code changes
     output: {
+        publicPath: CONFIG.publicPath,
         path: resolve(CONFIG.outputDir),
-        filename: isProduction ? '[name].[hash].js' : '[name].js',
-        hashFunction: 'xxhash64'
+        filename: isProduction ? '[name].[contenthash].js' : '[name].js'
     },
-    mode: isProduction ? "production" : "development",
-    devtool: isProduction ? "source-map" : "eval-source-map",
+    mode: isProduction ? 'production' : 'development',
+    devtool: isProduction ? 'source-map' : 'eval-source-map',
     optimization: {
         // Split the code coming from npm packages into a different file.
         // 3rd party dependencies change less often, let the browser cache them.
         splitChunks: {
-            cacheGroups: {
-                commons: {
-                    test: /node_modules/,
-                    name: "vendors",
-                    chunks: "all"
-                }
-            }
+            chunks: 'all'
         },
-        moduleIds: isProduction ? 'deterministic' : 'named'
     },
     resolve: {
         // See https://github.com/fable-compiler/Fable/issues/1490
         symlinks: false
     },
     devServer: {
+        // Necessary when using non-hash client-side routing
+        // This assumes the index.html is accessible from server root
+        // For more info, see https://webpack.js.org/configuration/dev-server/#devserverhistoryapifallback
+        historyApiFallback: {
+            index: '/'
+        },
         static: [
             {
               directory: resolve(CONFIG.assetsDir),
-              publicPath: "/",
+              publicPath: '/',
             },
             {
-              directory: resolve("./src/Server"),
-              publicPath: "/",
+              directory: resolve('./src/Server'),
+              publicPath: '/',
             },
         ],
         port: CONFIG.devServerPort,
         proxy: CONFIG.devServerProxy,
         hot: true,
-        historyApiFallback: true
     },
-    // - fable-loader: transforms F# into JS
-    // - babel-loader: transforms JS to old syntax (compatible with old browsers)
     // - sass-loaders: transforms SASS/SCSS into JS
     // - file-loader: Moves files referenced in the code (fonts, images) into output folder
     module: {
         rules: [
-            {
-                test: /\.js$/,
-                exclude: /node_modules/,
-                use: {
-                    loader: 'babel-loader',
-                    options: CONFIG.babel
-                },
-            },
             {
                 test: /\.(sass|scss|css)$/,
                 use: [
@@ -125,15 +104,16 @@ module.exports = {
                         ? MiniCssExtractPlugin.loader
                         : 'style-loader',
                     'css-loader',
+                    'resolve-url-loader',
                     {
-                    loader: 'sass-loader',
-                    options: { implementation: require("sass") }
+                        loader: 'sass-loader',
+                        options: { implementation: require('sass') }
                     }
                 ],
             },
             {
                 test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)(\?.*)?$/,
-                use: ["file-loader"]
+                type: 'asset/resource'
             }
         ]
     },
@@ -142,12 +122,12 @@ module.exports = {
             new MiniCssExtractPlugin({ filename: 'style.css' }),
             new CopyWebpackPlugin({patterns: [{ from: resolve(CONFIG.assetsDir) }]}),
             new SitemapPlugin({base: 'https://enserhof.at', paths: [
-                "/aktivitaeten",
-                "/ueber-den-hof?expand-all=1",
-                "/lageplan"
+                '/aktivitaeten',
+                '/ueber-den-hof?expand-all=1',
+                '/lageplan'
             ]}),
             new workboxPlugin.GenerateSW({
-                swDest: "sw.js",
+                swDest: 'sw.js',
 
                 exclude: [
                     /\.(?:png|jpg|jpeg|svg)$/,
@@ -193,5 +173,11 @@ module.exports = {
 };
 
 function resolve(filePath) {
-    return path.join(__dirname, filePath)
+    return path.isAbsolute(filePath) ? filePath : path.join(__dirname, filePath);
+}
+
+function hasArg(arg) {
+    return arg instanceof RegExp
+        ? process.argv.some(x => arg.test(x))
+        : process.argv.indexOf(arg) !== -1;
 }
