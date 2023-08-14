@@ -2,9 +2,6 @@
   "name": "PublicFarm",
   "version": "1.0.0",
   "license": "MIT",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "7.22.10",
@@ -15,9 +12,6 @@
     "copy-webpack-plugin": "11.0.0",
     "core-js": "3.32.0",
     "css-loader": "6.8.1",
-    "fable-compiler": "2.13.0",
-    "fable-loader": "2.1.9",
-    "fable-utils": "1.2.0",
     "file-loader": "6.2.0",
     "html-webpack-plugin": "5.5.3",
     "mini-css-extract-plugin": "2.7.6",

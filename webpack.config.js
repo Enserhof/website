@@ -111,15 +111,6 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.fs(x|proj)?$/,
-                use: {
-                    loader: "fable-loader",
-                    options: {
-                        babel: CONFIG.babel
-                    }
-                }
-            },
-            {
                 test: /\.js$/,
                 exclude: /node_modules/,
                 use: {
@@ -198,9 +189,7 @@ module.exports = {
                 ]
             })
         ]) :
-        commonPlugins.concat([
-            new webpack.HotModuleReplacementPlugin()
-        ])
+        commonPlugins
 };
 
 function resolve(filePath) {
