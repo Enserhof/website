@@ -9,6 +9,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const GoogleFontsPlugin = require('@beyonk/google-fonts-webpack-plugin');
 const workboxPlugin = require('workbox-webpack-plugin');
 const SitemapPlugin = require('sitemap-webpack-plugin').default;
 
@@ -40,6 +41,12 @@ var commonPlugins = [
     new HtmlWebpackPlugin({
         filename: 'index.html',
         template: resolve(CONFIG.indexHtmlTemplate)
+    }),
+    new GoogleFontsPlugin({
+        fonts: [
+            { family: 'Architects Daughter', variants: ['400'] }
+        ],
+        apiUrl: 'https://gwfh.mranftl.com/api/fonts'
     })
 ];
 
