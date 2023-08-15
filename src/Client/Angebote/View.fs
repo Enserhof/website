@@ -54,6 +54,18 @@ let root model =
     ]
 
   [ Heading.h1 [ Heading.Is3 ] [ str "Angebote" ]
+    entry "Ponyclub" [
+        ul []
+          [
+            li [] [ str "Jeden Samstag in den Ferien von 09:00 Uhr bis 10:00 Uhr" ]
+            li [] [ str "Gemeinsames Putzen, Striegeln und Hufe auskratzen" ]
+            li [] [ str "Jedes Kind wird beliebig oft jeweils zwei Runden in der Koppel geführt" ]
+            li [] [ str "Zwei \"Warteschlangen\" für Leika und Luna" ]
+            li [] [ str "Erwachsene können im Stüberl die kleinen Reiter bei Kaffee oder Saft beobachten" ]
+        ]
+        p [] [ b [] [ str "Kosten:" ]; str " 5 € pro Kind" ]
+    ]
+
     entry "Kindergeburtstag" [
       p [] [
         str "Eine Geburtstagsparty der etwas anderen Art kannst du ab deinem 5. Geburtstag bei und mit uns feiern."
