@@ -92,7 +92,7 @@ let root model =
         p [] [ str "Die Möglichkeiten zum Ponyreiten richten sich hauptsächlich nach deinem Alter, deiner Erfahrung mit Ponys und Tieren im Allgemeinen und nach deinem Geschick." ]
         Heading.h3 [ Heading.Is5 ] [ str "Minireiter (2 - 3 Jahre, ca. 30 Minuten) - der erste Kontakt mit Ponys" ]
         p [] [
-            str "Gemeinsam wird unser Pony Laika geputzt, um eine Verbindung zwischen dir und dem Pferd aufzubauen."
+            str "Gemeinsam wird unser Pony Leika geputzt, um eine Verbindung zwischen dir und dem Pferd aufzubauen."
             str " Anschließend reinigen wir gemeinsam die Hufe und satteln das Pony."
             str " Jetzt geht es los."
             str " Während du dich gut am Haltegurt festhältst, reiten wir durch unseren Obstgarten."

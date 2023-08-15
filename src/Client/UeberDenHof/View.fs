@@ -77,9 +77,9 @@ let root model dispatch =
             Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Ponys
-                "Laika & Luna"
+                "Leika & Luna"
                 [ p []
-                    [ str "Unser Pony Laika ist 2017 zu uns auf den Hof gekommen. Sie ist mittlerweile 10 Jahre alt und eine sehr angenehme und ruhige Stute."
+                    [ str "Unser Pony Leika ist 2017 zu uns auf den Hof gekommen. Sie ist mittlerweile 10 Jahre alt und eine sehr angenehme und ruhige Stute."
                       br []
                       str "Im April 2018 überraschte sie uns mit ihrem Fohlen \"Luna\"." ]
                   p []
