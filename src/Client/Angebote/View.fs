@@ -66,40 +66,6 @@ let root model =
         p [] [ b [] [ str "Kosten:" ]; str " 5 € pro Kind" ]
     ]
 
-    entry "Kindergeburtstag" [
-      p [] [
-        str "Eine Geburtstagsparty der etwas anderen Art kannst du ab deinem 5. Geburtstag bei und mit uns feiern."
-        str " Beim Geburtstagsfest wird unter anderem"
-        ul [] [
-          li [] [ str "ein gemeinsames Geburtstagslied für dich gesungen," ]
-          li [] [ str "Bewegungsspiele gespielt," ]
-          li [] [ str "Tiere gestreichelt und abgeschmust," ]
-          li [] [ str "im Heuhaufen herumgesprungen, " ]
-          li [] [ str "Pony geritten und" ]
-          li [] [ str "ein Tierquiz gespielt." ]
-        ]
-      ]
-      Heading.h3 [ Heading.Is5 ] [ str "Details" ]
-      p [] [
-        ul [] [
-          li [] [ b [] [ str "Dauer:" ]; str " 2 ½ Stunden (z.B. von 14:00 Uhr bis 16:30 Uhr)" ]
-          li [] [ b [] [ str "Kosten:" ]; str " 170 €" ]
-          li [] [ b [] [ str "Anzahl der Kinder:" ]; str " max. 8 inkl. Geburtstagskind" ]
-        ]
-      ]
-      p [] [
-        str "Deine Mama oder dein Papa nehmen bitte deinen Lieblingskuchen mit, der beim gemeinsamen Feiern mit deinen Freunden gegessen wird."
-        str " Wasser und Saft sowie Geschirr für den Kuchen werden von uns zur Verfügung gestellt."
-      ]
-      p [] [
-        str "Die Anwesenheit von zumindest einer Begleitperson von dir ist erforderlich."
-        str " Du und deine Freunde benötigen festes Schuhwerk sowie witterungsentsprechende Kleidung."
-      ]
-      p [] [
-        str "Wir freuen uns auf dich und deine Freunde."
-      ]
-    ]
-
     entry "Ponyreiten" [
         p [] [ str "Die Möglichkeiten zum Ponyreiten richten sich hauptsächlich nach deinem Alter, deiner Erfahrung mit Ponys und Tieren im Allgemeinen und nach deinem Geschick." ]
         Heading.h3 [ Heading.Is5 ] [ str "Minireiter (2 - 3 Jahre, ca. 30 Minuten) - der erste Kontakt mit Ponys" ]
