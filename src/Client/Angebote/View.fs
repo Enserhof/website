@@ -57,7 +57,7 @@ let root model =
     entry "Ponyclub" [
         ul []
           [
-            li [] [ str "Jeden Samstag in den Ferien von 09:00 Uhr bis 10:00 Uhr" ]
+            li [] [ str "Jeden Samstag in den Sommerferien von 09:00 Uhr bis 10:00 Uhr" ]
             li [] [ str "Gemeinsames Putzen, Striegeln und Hufe auskratzen" ]
             li [] [ str "Jedes Kind wird beliebig oft jeweils zwei Runden in der Koppel geführt" ]
             li [] [ str "Zwei \"Warteschlangen\" für Leika und Luna" ]
