@@ -117,20 +117,20 @@ let root model =
         ]
     ]
 
-    entry "Stallarbeit für Kinder" [
-        p []
-          [ str "Ihr habt ab nun wieder die Möglichkeit, mit uns in den Stall zu gehen."
-            br []
-            str "Wir reinigen gemeinsam die Koppel und die Ställe, bringen den Tieren Futter und holen uns die frischen Eier der Hühner ab."
-            br []
-            str "Das Stallgehen dauert ca. eine Stunde und findet bei jeder Witterung statt."
-            br []
-            str "Wir freuen uns, wenn ihr einfach mal vorbei schaut." ]
-        span [] stallzeitenContent
-        Image.image
-          [ Image.Modifiers [ Modifier.TextAlignment (Screen.All, TextAlignment.Left) ] ]
-          [ img [ Src (importAll "../../images/stallarbeit.jpg")?``default``; Style [ MaxWidth "640px" ] ] ]
-    ]
+    // entry "Stallarbeit für Kinder" [
+    //     p []
+    //       [ str "Ihr habt ab nun wieder die Möglichkeit, mit uns in den Stall zu gehen."
+    //         br []
+    //         str "Wir reinigen gemeinsam die Koppel und die Ställe, bringen den Tieren Futter und holen uns die frischen Eier der Hühner ab."
+    //         br []
+    //         str "Das Stallgehen dauert ca. eine Stunde und findet bei jeder Witterung statt."
+    //         br []
+    //         str "Wir freuen uns, wenn ihr einfach mal vorbei schaut." ]
+    //     span [] stallzeitenContent
+    //     Image.image
+    //       [ Image.Modifiers [ Modifier.TextAlignment (Screen.All, TextAlignment.Left) ] ]
+    //       [ img [ Src (importAll "../../images/stallarbeit.jpg")?``default``; Style [ MaxWidth "640px" ] ] ]
+    // ]
 
     entry "Eier von Freilandhühnern" [
         p [] [
