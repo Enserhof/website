@@ -60,6 +60,14 @@ let root model =
             li [] [ str "Erwachsene können im Stüberl die kleinen Reiter bei Kaffee oder Saft beobachten" ]
         ]
         p [] [ b [] [ str "Kosten:" ]; str " 5 € pro Kind" ]
+        p [ Style [ Display DisplayOptions.Flex; GridGap "1em"; FlexWrap "wrap"; AlignItems AlignItemsOptions.FlexEnd ] ] [
+          img [ Src (importAll $"../../images/angebote/ponyclub_1.jpg")?``default`` ]
+          img [ Src (importAll $"../../images/angebote/ponyclub_2.jpg")?``default`` ]
+          img [ Src (importAll $"../../images/angebote/ponyclub_3.jpg")?``default`` ]
+          img [ Src (importAll $"../../images/angebote/ponyclub_4.jpg")?``default`` ]
+          img [ Src (importAll $"../../images/angebote/ponyclub_5.jpg")?``default`` ]
+          img [ Src (importAll $"../../images/angebote/ponyclub_6.jpg")?``default`` ]
+        ]
     ]
 
     entry "Ponyreiten" [
