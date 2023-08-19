@@ -77,16 +77,16 @@ let root model =
             str "Gemeinsam wird unser Pony Leika geputzt, um eine Verbindung zwischen dir und dem Pferd aufzubauen."
             str " Anschließend reinigen wir gemeinsam die Hufe und satteln das Pony."
             str " Jetzt geht es los."
-            str " Während du dich gut am Haltegurt festhältst, reiten wir durch unseren Obstgarten."
-            str " Nach ein paar Runden bringen wir das Pony auf die Koppel zurück, wo du es zum Abschluss mit einer Karotte belohnen darfst."
+            str " Während du dich gut am Haltegurt festhältst, reiten wir ein paar Runden in unserer Koppel - du bist aber natürlich nicht alleine, sondern wirst geführt."
+            str " Am Ende verabschieden wir uns wieder von Leika und belohnen sie noch mit einer Kleinigkeit."
         ]
         p [] [ b [] [ str "Kosten: "]; str "12 €" ]
 
         Heading.h3 [ Heading.Is5 ] [ str "Kinderreiter (4 - 7 Jahre, ca. 45 Minuten)" ]
         p [] [
-            str "Zu Beginn darfst du unser Pony putzen, um eine Verbindung mit ihm aufzubauen und Selbstbewusstsein im Umgang mit Pferden zu erlangen."
+            str "Zu Beginn darfst du eines unserer Ponys putzen, um eine Verbindung mit ihm aufzubauen und Selbstbewusstsein im Umgang mit Pferden zu erlangen."
             str " Anschließend werden die Hufe kontrolliert und gereinigt und dann das Pony gesattelt."
-            str " Je nach Erfahrung und Geschick verwenden wir entweder den Haltegurt oder unseren Westernsattel."
+            str " Je nach Erfahrung und Geschick verwenden wir entweder den Haltegurt oder einen englischen Sattel, wo du dich gut halten kannst."
             str " Beim Kinderreiten bleiben wir auf unserer Hofwiese und machen Übungen am Pony."
         ]
         p [] [ b [] [ str "Kosten: "]; str "18 €" ]
