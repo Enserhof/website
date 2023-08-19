@@ -16,7 +16,7 @@ let root =
         p [] [ str "Wir, Johannes und Sylvia, leben mit unseren drei Kindern auf dem Enserhof in Ehrendorf bei Ohlsdorf - ca. 5 Autominuten von Gmunden entfernt." ]
         p [] [
           str "Im Laufe der Jahre haben sich immer mehr verschiedene Tiere auf dem Hof eingelebt. "
-          str "Es ist uns eine Herzensangelegenheit, dass unsere Tiere ihren grundlegenden Bedürfnissen bei uns auf dem Hof nachkommen können, dass sie mit biologischem Futter gefüttert werden und dass sie genug Platz zum Bewegen haben."
+          str "Es ist uns eine Herzensangelegenheit, dass unsere Tiere einen nahen Kontakt zu Menschen haben, dass sie ihren grundlegenden Bedürfnissen nachkommen können und dass sie bei uns auf dem Hof genug Platz zum Bewegen haben."
         ]
       ]
   ]

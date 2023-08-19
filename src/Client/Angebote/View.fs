@@ -142,7 +142,7 @@ let root model =
 
     entry "Eier von Freilandhühnern" [
         p [] [
-            str "Unsere kleine Hühnerschar wird biologisch gefüttert und gehalten. Die Eier sind direkt bei uns erhältlich."
+            str "Unsere kleine Hühnerschar wird mit Getreide gefüttert und biologisch gehalten. Die Eier sind direkt bei uns erhältlich."
         ]
         p [] [
             b [] [ str "Kosten: "]
