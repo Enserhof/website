@@ -137,7 +137,7 @@ let root model =
     //     span [] stallzeitenContent
     //     Image.image
     //       [ Image.Modifiers [ Modifier.TextAlignment (Screen.All, TextAlignment.Left) ] ]
-    //       [ img [ Src (importAll "../../images/stallarbeit.jpg")?``default``; Style [ MaxWidth "640px" ] ] ]
+    //       [ img [ Src (importAll "../../images/angebote/stallarbeit.jpg")?``default``; Style [ MaxWidth "640px" ] ] ]
     // ]
 
     entry "Eier von Freilandhühnern" [
