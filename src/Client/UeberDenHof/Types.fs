@@ -8,8 +8,8 @@ type MenuItem =
   | Hasen
   | Huehner
   | Puma
-  | Maxi
-  | Lilo
+  | Ziegen
+  | Katzen
 
 let allMenuItems =
   let cases = FSharpType.GetUnionCases typeof<MenuItem>

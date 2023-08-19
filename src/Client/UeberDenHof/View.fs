@@ -88,39 +88,45 @@ let root model dispatch =
             Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Huehner
-                "Hahn & Hühner"
+                "Hühner"
                 [ p []
-                    [ str "Unsere kleine Hühnerschar besteht aus einem stolzen Hahn und 13 Hühner. Sie lieben es sich unter den Sträuchern zu verkriechen und sich in der Erde zu wälzen." ] ]
+                    [ str "Unsere kleine Hühnerschar besteht aktuell aus fünf Hühnern. Sie lieben es sich unter den Sträuchern zu verkriechen und sich in der Erde zu wälzen und sind sogar den Umgang mit Kleinkindern gewohnt." ] ]
                 (image (importAll "../../images/tiere/huehner.jpg")))
           ]
         Tile.parent [ Tile.IsVertical ]
           [ Tile.child [ Tile.CustomClass "box" ]
               (animalBox
-                Hasen
-                "Minki, Quetschi und Familie"
+                Ziegen
+                "Lisa & Sissy"
                 [ p []
-                    [ str "Unsere Hasen leben ebenfalls seit 2017 auf unserem Hof. Die beiden Eltern sorgten innerhalb dieser Zeit schon vier mal für Nachwuchs. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
-                (image (importAll "../../images/tiere/hasen.jpg")))
+                    [ str "Lisa und Sissy sind 2020 als kleine Zicklein von einer befreundeten Ziegenlandwirtschaft zu uns gekommen. Seit 2022 bekamen wir zunächst von beiden, später nur noch von Lisa, ca. zwei Liter Milch pro Tag." ] ]
+                (image (importAll "../../images/tiere/ziegen.jpg")))
             Tile.child [ Tile.CustomClass "box" ]
               (animalBox
                 Puma
                 "Puma"
                 [ p []
-                    [ str "Unser Wachhund Puma lebt seit 2015 auf unserem Hof. Puma ist ein sehr netter Kerl. Er liebt Kinder über alles und tut keiner Mücke etwas zu Leide. Puma liebt es im Garten (oder in der Sandkiste) zu spielen." ] ]
+                    [ str "Unser Wachhund Puma lebt seit 2015 auf unserem Hof. Puma ist ein sehr netter Kerl. Er liebt Kinder über alles und tut keiner Mücke etwas zu Leide. Puma liebt es, im Garten (oder in der Sandkiste) zu spielen." ] ]
                 (image (importAll "../../images/tiere/hund.jpg")))
             Tile.child [ Tile.CustomClass "box" ]
               (animalBox
-                Maxi
-                "Maxi"
+                Hasen
+                "Tina"
                 [ p []
-                    [ str "Unser Maxi ist 2011 am Enserhof geboren. Er ist ein unkomplizierter, liebevoller und treuer Wegbegleiter." ] ]
-                (image (importAll "../../images/tiere/maxi.jpg")))
+                    [ str "Unsere Häsin ist aktuell eine Einzelgängerin - sie wird aber in naher Zukunft wieder Gesellschaft bekommen. Die Hasen werden gerne von den Kindern gefüttert, gestreichelt und beobachtet." ] ]
+                (image (importAll "../../images/tiere/hasen.jpg")))
             Tile.child [ Tile.CustomClass "box" ]
               (animalBox
-                Lilo
-                "Lilo"
-                [ p []
-                    [ str "Lilo ist uns im Herbst 2018 in einer stürmigen Nacht zugelaufen. Wir versuchten zwar, den Besitzer ausfindig zu machen, insgeheim hofften wir aber von Anfang an, dass Lilo bei uns bleiben kann. Sie ist eine äußerst zutrauliche Katze, will immer voll dabei sein und folgt oft auf Schritt und Tritt. Bei der Mäusejagd unterstützt sie Maxi tatkräftig und sehr erfolgreich." ] ]
+                Katzen
+                "Lilo, Susi & Billy"
+                [ p [] [
+                    str "Lilo ist uns im Herbst 2018 in einer stürmigen Nacht zugelaufen. Wir versuchten zwar, den Besitzer ausfindig zu machen, insgeheim hofften wir aber von Anfang an, dass Lilo bei uns bleiben kann. Sie ist eine äußerst zutrauliche Katze, will immer voll dabei sein und folgt oft auf Schritt und Tritt. Bei der Mäusejagd ist sie unschlagbar - vor allem, wenn sie ihre Jungen versorgen muss."
+                    br []
+                    str "Lilo erfreut uns regelmäßig (ca. zwei Mal pro Jahr) mit Nachwuchs. Beim ersten Wurf war Susi eines dieser Geschenke."
+                    br []
+                    str "Billy hingegen ist das Überbleibsel eines Nachwuchses einer anderen Katzenmutter, die ihre beiden Jungen in unserem Heuboden zur Welt gebracht hat, einige Wochen später aber dann nur mit dem Geschwister weiterzog."
+                  ]
+                ]
                 (image (importAll "../../images/tiere/lilo.jpg")))
           ]
       ]
