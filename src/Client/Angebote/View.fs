@@ -152,4 +152,17 @@ let root model =
             ]
         ]
     ]
+
+    entry "Ziegenmilch" [
+        p [] [
+            str "Die Ziegen werden zweimal pro Tag gemolken, anschließend wird die Milch gereinigt und ist als Rohmilch bei uns erhältlich."
+        ]
+        p [] [
+            b [] [ str "Kosten: "]
+            ul [] [
+                li [] [ str "½ Liter: 1 €" ]
+                li [] [ str "1 Liter: 2 €" ]
+            ]
+        ]
+    ]
   ]
