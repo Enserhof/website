@@ -1,0 +1,47 @@
+@import 'tailwindcss';
+@import '@fontsource/architects-daughter';
+
+h1, h2, h3 {
+  font-family: 'Architects Daughter', cursive;
+}
+main h1:before, h2:before, h3:before {
+  padding-right: 0.3em;
+  color: #9ddcff;
+}
+main h1:before {
+  content: "/";
+}
+main h2:before {
+  content: "//";
+}
+main h3:before {
+  content: "///";
+}
+
+.content ul {
+  @apply list-disc ml-4;
+}
+
+/* Slide: https://www.joezimjs.com/javascript/pure-css-slide-down-animation/ */
+.is-open {
+  max-height: 2000px;
+  transition: all .3s ease-in;
+}
+.is-closed {
+  line-height: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  color: transparent;
+  transition: all .3s ease-in;
+}
+.is-closed * {
+  margin: 0 !important;
+  padding: 0 !important;
+}
+.is-collapsed .icon {
+  transition: all .3s ease-in;
+}
+.is-expanded .icon {
+  transition: all .3s ease-in;
+  transform: rotate(90deg);
+}
